@@ -3,11 +3,10 @@
 Academic staff, Universiti Teknologi MARA (UiTM)  
 Email: yusuf595@uitm.edu.my
 
-## About
-I am an academic staff member at Universiti Teknologi MARA (UiTM), with interests in teaching, research, and academic service related to my field.
+I work at the intersection of teaching, research, and academic service in printing technology.
 
-## Pages
+- [About](about)
 - [Research](research)
-- [Teaching & Supervision](teaching)
+- [Teaching](teaching)
 - [Service & Engagement](service)
-- [Contact](#)
+- [CV](cv.pdf)
