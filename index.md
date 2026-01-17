@@ -9,4 +9,4 @@ I work at the intersection of teaching, research, and academic service in printi
 - [Research](research)
 - [Teaching](teaching)
 - [Service & Engagement](service)
-- [CV](cv.pdf)
+- [Curriculum Vitae](Muhammad_Yusuf_Bin_Masod_CV.pdf)
