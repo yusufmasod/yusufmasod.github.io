@@ -3,7 +3,7 @@
 Academic staff, Universiti Teknologi MARA (UiTM)  
 Email: yusuf595@uitm.edu.my
 
-I work at the intersection of teaching, research, and academic service in printing technology.
+My work focuses on printing technology, print production systems, and related educational and manufacturing contexts.
 
 - [About](about)
 - [Research](research)
