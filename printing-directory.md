@@ -149,11 +149,16 @@ $(document).ready(function () {
         ];
       });
 
-      $('#directory').DataTable({
-        data: tableData,
-        pageLength: 25,
-        autoWidth: false,
-        deferRender: true
+$('#directory').DataTable({
+  data: tableData,
+  pageLength: 25,
+  autoWidth: false,
+  deferRender: true,
+
+  colResize: {
+    resizeTable: true
+  }
+});
         // IMPORTANT: no scrollX — we use the .table-wrap horizontal scroll instead
       });
     },
