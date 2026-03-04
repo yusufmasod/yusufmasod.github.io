@@ -37,3 +37,14 @@ table.dataTable { width: 100% !important; }
 .wrapper article {
   max-width: 1400px !important;
 }
+/* Reduce header/body "gap" effect when scrolling */
+.dataTables_scrollHeadInner, 
+.dataTables_scrollHeadInner table {
+  width: 100% !important;
+}
+#directory td:nth-child(4) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 520px;
+}
