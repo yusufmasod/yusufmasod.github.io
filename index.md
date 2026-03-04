@@ -9,4 +9,5 @@ My work focuses on printing technology, print production systems, and related ed
 - [Research](research)
 - [Teaching](teaching)
 - [Service & Engagement](service)
+- [Malaysia Printing Firms Directory](printing-directory)
 - [Curriculum Vitae](Muhammad_Yusuf_Bin_Masod_CV.pdf)
