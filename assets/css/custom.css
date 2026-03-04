@@ -1,0 +1,20 @@
+/* Make page content wider */
+.wrapper {
+  max-width: 1400px;
+}
+
+/* Allow wide tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Prevent column headers from wrapping weirdly */
+#directory th {
+  white-space: nowrap;
+}
+
+/* Make DataTables behave nicely */
+table.dataTable {
+  width: 100% !important;
+}
