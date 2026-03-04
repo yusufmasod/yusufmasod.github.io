@@ -48,3 +48,8 @@ table.dataTable { width: 100% !important; }
   text-overflow: ellipsis;
   max-width: 520px;
 }
+/* Make GitHub Pages theme content wider */
+.wrapper, .page-content, main, article, section {
+  max-width: 1400px !important;
+  width: 100% !important;
+}
