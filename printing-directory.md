@@ -17,19 +17,23 @@ This page lists printing firms compiled from licensing records of the Ministry o
 <style>
   .table-wrap { width: 100%; overflow-x: auto; }
 
-  /* Prevent header wrapping */
+  /* Keep headers readable */
   #directory th { white-space: nowrap; }
 
-  /* Make sure scroll head + body use the same width */
-  .dataTables_scrollHeadInner,
-  .dataTables_scrollHeadInner table,
-  .dataTables_scrollBody table {
-    width: 1800px !important;   /* <-- key: same width for both header+body */
+  /* Keep rows compact */
+  #directory td { vertical-align: top; }
+
+  /* Optional: make Address not bulldoze the layout */
+  #directory td:nth-child(4) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 520px;
   }
 </style>
 
 <div class="table-wrap">
-  <table id="directory" class="display nowrap" style="width:100%">
+  <table id="directory" class="display" style="width:100%">
     <thead>
       <tr>
         <th>Company</th>
@@ -48,14 +52,21 @@ This page lists printing firms compiled from licensing records of the Ministry o
 </div>
 
 <script>
+function getVal(row, keys) {
+  for (const k of keys) {
+    if (row && Object.prototype.hasOwnProperty.call(row, k) && String(row[k]).trim() !== "") {
+      return String(row[k]).trim();
+    }
+  }
+  return "";
+}
+
 function looksLikeUrl(value) {
   if (!value) return false;
   const s = String(value).trim();
   if (!s) return false;
-
   const lower = s.toLowerCase();
   if (lower === "when available" || lower === "n/a" || lower === "-") return false;
-
   if (s.startsWith("http://") || s.startsWith("https://")) return true;
   return s.includes(".");
 }
@@ -68,8 +79,14 @@ function makeClickableUrl(value) {
   return `<a href="${safeUrl}" target="_blank" rel="noopener">${url}</a>`;
 }
 
-$(document).ready(function () {
+function looksLikeAddress(s) {
+  if (!s) return false;
+  // crude but useful: addresses usually contain digits + commas or "jalan/lorong/lot"
+  const t = s.toLowerCase();
+  return /\d/.test(t) && (t.includes(",") || t.includes("jalan") || t.includes("lorong") || t.includes("lot") || t.includes("taman"));
+}
 
+$(document).ready(function () {
   Papa.parse("printing_press_License%20directory.csv", {
     download: true,
     header: true,
@@ -78,64 +95,46 @@ $(document).ready(function () {
     complete: function(results) {
       const rows = results.data || [];
 
-      const tableData = rows.map(r => ([
-        r["Company"] || "",
-        r["State"] || "",
-        r["District"] || "",
-        r["Address"] || "",
-        r["Contact"] || "",
-        makeClickableUrl(r["Website"] || ""),
-        r["Industry Certification"] || "",
-        r["Printing Sector Category"] || "",
-        r["Core Activities"] || ""
-      ]));
+      const tableData = rows.map(r => {
+        // Try multiple possible header names (PDF→CSV often changes them)
+        let company = getVal(r, ["Company", "SYARIKAT", "Syarikat", "Nama Syarikat", "NAMA SYARIKAT"]);
+        let state   = getVal(r, ["State", "NEGERI", "Negeri"]);
+        let district= getVal(r, ["District", "DAERAH", "Daerah"]);
+        let address = getVal(r, ["Address", "ALAMAT", "Alamat", "ADDRESS"]);
+        let contact = getVal(r, ["Contact", "KONTAK", "Telefon", "TEL", "No Telefon", "E-mel", "Email", "EMEL"]);
+        let website = getVal(r, ["Website", "LAMAN WEB", "Laman Web", "URL", "Web"]);
+        let cert    = getVal(r, ["Industry Certification", "Certification", "Pensijilan", "PENSIJILAN"]);
+        let sector  = getVal(r, ["Printing Sector Category", "Sector", "Kategori", "KATEGORI"]);
+        let core    = getVal(r, ["Core Activities", "Activities", "Aktiviti", "AKTIVITI"]);
 
-      const dt = $('#directory').DataTable({
+        // Heuristic fix for shifted extraction:
+        // If district is empty, and address looks short (like a place name),
+        // and contact looks like a full address, shift them right.
+        if (!district && address && !looksLikeAddress(address) && looksLikeAddress(contact)) {
+          district = address;
+          address = contact;
+          contact = "";
+        }
+
+        return [
+          company,
+          state,
+          district,
+          address,
+          contact,
+          makeClickableUrl(website),
+          cert,
+          sector,
+          core
+        ];
+      });
+
+      $('#directory').DataTable({
         data: tableData,
         pageLength: 25,
         autoWidth: false,
-        deferRender: true,
-
-        scrollX: true,
-        scrollCollapse: true,
-
-        // lock widths so DataTables stops "guessing"
-        columns: [
-          { width: "260px" }, // Company
-          { width: "160px" }, // State
-          { width: "160px" }, // District
-          { width: "520px" }, // Address
-          { width: "160px" }, // Contact
-          { width: "160px" }, // Website
-          { width: "220px" }, // Industry Certification
-          { width: "260px" }, // Printing Sector Category
-          { width: "220px" }  // Core Activities
-        ],
-
-        initComplete: function () {
-          // After DataTables builds the two-table scroll structure:
-          dt.columns.adjust();
-
-          // Manual scroll sync (fixes your exact “shifted columns” symptom)
-          const $body = $('.dataTables_scrollBody');
-          $body.off('scroll.dtfix').on('scroll.dtfix', function () {
-            $('.dataTables_scrollHead').scrollLeft($body.scrollLeft());
-          });
-        }
-      });
-
-      // Extra alignment passes (fonts/layout settle after init)
-      setTimeout(function () { dt.columns.adjust(); }, 300);
-      setTimeout(function () { dt.columns.adjust(); }, 1200);
-
-      // One more after everything loads (images/fonts)
-      $(window).on('load', function () {
-        dt.columns.adjust();
-      });
-
-      // Keep aligned on resize
-      $(window).on('resize', function () {
-        dt.columns.adjust();
+        deferRender: true
+        // IMPORTANT: no scrollX — we use the .table-wrap horizontal scroll instead
       });
     },
 
@@ -144,6 +143,5 @@ $(document).ready(function () {
       alert("Could not load the CSV. Check the file name and ensure it is in the repo root.");
     }
   });
-
 });
 </script>
