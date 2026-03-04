@@ -10,13 +10,12 @@ title: Malaysia Printing Firms Directory
 This page lists printing firms compiled from licensing records of the Ministry of Home Affairs Malaysia.
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
+<!-- Column resize plugin -->
 <script src="https://cdn.jsdelivr.net/npm/datatables-colresize@1.0.2/jquery.dataTables.colResize.min.js"></script>
 
 <style>
@@ -101,12 +100,12 @@ function makeClickableUrl(value) {
 
 function looksLikeAddress(s) {
   if (!s) return false;
-  // crude but useful: addresses usually contain digits + commas or "jalan/lorong/lot"
-  const t = s.toLowerCase();
+  const t = String(s).toLowerCase();
   return /\d/.test(t) && (t.includes(",") || t.includes("jalan") || t.includes("lorong") || t.includes("lot") || t.includes("taman"));
 }
 
 $(document).ready(function () {
+
   Papa.parse("printing_press_License%20directory.csv", {
     download: true,
     header: true,
@@ -116,20 +115,17 @@ $(document).ready(function () {
       const rows = results.data || [];
 
       const tableData = rows.map(r => {
-        // Try multiple possible header names (PDF→CSV often changes them)
-        let company = getVal(r, ["Company", "SYARIKAT", "Syarikat", "Nama Syarikat", "NAMA SYARIKAT"]);
-        let state   = getVal(r, ["State", "NEGERI", "Negeri"]);
-        let district= getVal(r, ["District", "DAERAH", "Daerah"]);
-        let address = getVal(r, ["Address", "ALAMAT", "Alamat", "ADDRESS"]);
-        let contact = getVal(r, ["Contact", "KONTAK", "Telefon", "TEL", "No Telefon", "E-mel", "Email", "EMEL"]);
-        let website = getVal(r, ["Website", "LAMAN WEB", "Laman Web", "URL", "Web"]);
-        let cert    = getVal(r, ["Industry Certification", "Certification", "Pensijilan", "PENSIJILAN"]);
-        let sector  = getVal(r, ["Printing Sector Category", "Sector", "Kategori", "KATEGORI"]);
-        let core    = getVal(r, ["Core Activities", "Activities", "Aktiviti", "AKTIVITI"]);
+        let company  = getVal(r, ["Company", "SYARIKAT", "Syarikat", "Nama Syarikat", "NAMA SYARIKAT"]);
+        let state    = getVal(r, ["State", "NEGERI", "Negeri"]);
+        let district = getVal(r, ["District", "DAERAH", "Daerah"]);
+        let address  = getVal(r, ["Address", "ALAMAT", "Alamat", "ADDRESS"]);
+        let contact  = getVal(r, ["Contact", "KONTAK", "Telefon", "TEL", "No Telefon", "E-mel", "Email", "EMEL"]);
+        let website  = getVal(r, ["Website", "LAMAN WEB", "Laman Web", "URL", "Web"]);
+        let cert     = getVal(r, ["Industry Certification", "Certification", "Pensijilan", "PENSIJILAN"]);
+        let sector   = getVal(r, ["Printing Sector Category", "Sector", "Kategori", "KATEGORI"]);
+        let core     = getVal(r, ["Core Activities", "Activities", "Aktiviti", "AKTIVITI"]);
 
-        // Heuristic fix for shifted extraction:
-        // If district is empty, and address looks short (like a place name),
-        // and contact looks like a full address, shift them right.
+        // Fix for shifted extraction
         if (!district && address && !looksLikeAddress(address) && looksLikeAddress(contact)) {
           district = address;
           address = contact;
@@ -149,17 +145,21 @@ $(document).ready(function () {
         ];
       });
 
-$('#directory').DataTable({
-  data: tableData,
-  pageLength: 25,
-  autoWidth: false,
-  deferRender: true,
+      // Destroy existing table if the page reloads the script (prevents duplicates)
+      if ($.fn.DataTable.isDataTable('#directory')) {
+        $('#directory').DataTable().clear().destroy();
+      }
 
-  colResize: {
-    resizeTable: true
-  }
-});
-        // IMPORTANT: no scrollX — we use the .table-wrap horizontal scroll instead
+      $('#directory').DataTable({
+        data: tableData,
+        pageLength: 25,
+        autoWidth: false,
+        deferRender: true,
+
+        // Enable column resizing
+        colResize: {
+          resizeTable: true
+        }
       });
     },
 
@@ -168,5 +168,6 @@ $('#directory').DataTable({
       alert("Could not load the CSV. Check the file name and ensure it is in the repo root.");
     }
   });
+
 });
 </script>
