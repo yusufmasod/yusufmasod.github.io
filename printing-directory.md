@@ -15,20 +15,35 @@ This page lists printing firms compiled from licensing records of the Ministry o
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
-  .table-wrap { width: 100%; overflow-x: auto; }
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
 
   /* Keep headers readable */
-  #directory th { white-space: nowrap; }
+  #directory th {
+    white-space: nowrap;
+  }
 
-  /* Keep rows compact */
-  #directory td { vertical-align: top; }
+  /* Align rows nicely */
+  #directory td {
+    vertical-align: top;
+  }
 
-  /* Optional: make Address not bulldoze the layout */
+  /* Address column: shorten but show full text when hovered */
   #directory td:nth-child(4) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 520px;
+    position: relative;
+  }
+
+  #directory td:nth-child(4):hover {
+    white-space: normal;
+    overflow: visible;
+    background: #ffffff;
+    z-index: 10;
   }
 </style>
 
