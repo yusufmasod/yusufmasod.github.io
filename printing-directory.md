@@ -11,17 +11,20 @@ This page lists printing firms compiled from licensing records of the Ministry o
 
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
-  /* Helps on narrow pages/themes */
-  .table-wrap { overflow-x: auto; }
+  /* Make the page use more width even on narrow Jekyll themes */
+  .page-content, .wrapper, main, .container { max-width: 1200px; }
+  /* Force full-width table area inside the content block */
+  .table-wrap { width: 100%; overflow-x: auto; }
   table.dataTable { width: 100% !important; }
+  /* Prevent header cells from wrapping weirdly */
+  #directory th { white-space: nowrap; }
 </style>
 
 <div class="table-wrap">
-  <table id="directory" class="display nowrap" style="width:100%">
+  <table id="directory" class="display nowrap">
     <thead>
       <tr>
         <th>Company</th>
@@ -44,18 +47,14 @@ function looksLikeUrl(value) {
   if (!value) return false;
   const s = String(value).trim();
   if (!s) return false;
-
-  // If your CSV contains placeholders like "When available", don't treat them as URLs
   const lower = s.toLowerCase();
   if (lower === "when available" || lower === "n/a" || lower === "-" ) return false;
-
-  // Basic checks
   if (s.startsWith("http://") || s.startsWith("https://")) return true;
-  return s.includes("."); // simple heuristic: domain usually has a dot
+  return s.includes(".");
 }
 
 function makeClickableUrl(value) {
-  if (!looksLikeUrl(value)) return ""; // show blank instead of "When available"
+  if (!looksLikeUrl(value)) return "";
   let url = String(value).trim();
   const hasProtocol = url.startsWith("http://") || url.startsWith("https://");
   const safeUrl = hasProtocol ? url : "https://" + url;
@@ -82,11 +81,23 @@ $(document).ready(function () {
         r["Core Activities"] || ""
       ]));
 
-      $('#directory').DataTable({
+      const dt = $('#directory').DataTable({
         data: tableData,
         pageLength: 25,
         scrollX: true,
-        autoWidth: false
+        scrollCollapse: true,
+        autoWidth: false,
+        fixedHeader: false
+      });
+
+      /* Key fix: recalc column widths AFTER data loads and table renders */
+      setTimeout(function () {
+        dt.columns.adjust().draw(false);
+      }, 200);
+
+      /* Also recalc when window resizes */
+      $(window).on('resize', function () {
+        dt.columns.adjust();
       });
     },
     error: function(err) {
