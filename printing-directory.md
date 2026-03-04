@@ -79,27 +79,30 @@ $(document).ready(function () {
       ]));
 
       const dt = $('#directory').DataTable({
-        data: tableData,
-        pageLength: 25,
-        scrollX: true,
-        scrollCollapse: true,
-        autoWidth: false,
-        fixedHeader: false
-      });
+  data: tableData,
+  pageLength: 25,
 
-      // Recalculate widths after render (fix header/body misalignment)
-      setTimeout(function () { dt.columns.adjust().draw(false); }, 200);
-      setTimeout(function () { dt.columns.adjust().draw(false); }, 800);
+  // Make wide tables stable
+  scrollX: true,
+  scrollXInner: "1600px",
+  scrollCollapse: true,
 
-      // Also adjust on resize
-      $(window).on('resize', function () {
-        dt.columns.adjust();
-      });
-    },
-    error: function(err) {
-      console.error("CSV load error:", err);
-      alert("Could not load the CSV. Check: file name + repo root + Raw link works.");
-    }
-  });
+  // Stability + performance
+  autoWidth: false,
+  deferRender: true,
+  fixedHeader: false,
+
+  // Force predictable widths for narrow columns
+  columns: [
+    { width: "260px" }, // Company
+    { width: "160px" }, // State
+    { width: "160px" }, // District
+    { width: "520px" }, // Address (wide)
+    { width: "160px" }, // Contact
+    { width: "160px" }, // Website
+    { width: "200px" }, // Industry Certification
+    { width: "240px" }, // Printing Sector Category
+    { width: "220px" }  // Core Activities
+  ]
 });
 </script>
