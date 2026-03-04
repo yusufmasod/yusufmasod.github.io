@@ -16,8 +16,16 @@ This page lists printing firms compiled from licensing records of the Ministry o
 
 <style>
   .table-wrap { width: 100%; overflow-x: auto; }
-  table.dataTable { width: 100% !important; }
+
+  /* Prevent header wrapping */
   #directory th { white-space: nowrap; }
+
+  /* Make sure scroll head + body use the same width */
+  .dataTables_scrollHeadInner,
+  .dataTables_scrollHeadInner table,
+  .dataTables_scrollBody table {
+    width: 1800px !important;   /* <-- key: same width for both header+body */
+  }
 </style>
 
 <div class="table-wrap">
@@ -85,14 +93,13 @@ $(document).ready(function () {
       const dt = $('#directory').DataTable({
         data: tableData,
         pageLength: 25,
-
-        // wide-table stability
-        scrollX: true,
-        scrollCollapse: true,
         autoWidth: false,
         deferRender: true,
 
-        // lock widths so header/body stay aligned
+        scrollX: true,
+        scrollCollapse: true,
+
+        // lock widths so DataTables stops "guessing"
         columns: [
           { width: "260px" }, // Company
           { width: "160px" }, // State
@@ -100,17 +107,33 @@ $(document).ready(function () {
           { width: "520px" }, // Address
           { width: "160px" }, // Contact
           { width: "160px" }, // Website
-          { width: "200px" }, // Industry Certification
-          { width: "240px" }, // Printing Sector Category
+          { width: "220px" }, // Industry Certification
+          { width: "260px" }, // Printing Sector Category
           { width: "220px" }  // Core Activities
-        ]
+        ],
+
+        initComplete: function () {
+          // After DataTables builds the two-table scroll structure:
+          dt.columns.adjust();
+
+          // Manual scroll sync (fixes your exact “shifted columns” symptom)
+          const $body = $('.dataTables_scrollBody');
+          $body.off('scroll.dtfix').on('scroll.dtfix', function () {
+            $('.dataTables_scrollHead').scrollLeft($body.scrollLeft());
+          });
+        }
       });
 
-      // alignment fixes (after render)
-      setTimeout(function () { dt.columns.adjust().draw(false); }, 300);
-      setTimeout(function () { dt.columns.adjust().draw(false); }, 900);
+      // Extra alignment passes (fonts/layout settle after init)
+      setTimeout(function () { dt.columns.adjust(); }, 300);
+      setTimeout(function () { dt.columns.adjust(); }, 1200);
 
-      // re-align on resize
+      // One more after everything loads (images/fonts)
+      $(window).on('load', function () {
+        dt.columns.adjust();
+      });
+
+      // Keep aligned on resize
       $(window).on('resize', function () {
         dt.columns.adjust();
       });
