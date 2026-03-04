@@ -14,28 +14,49 @@ This page lists printing firms compiled from licensing records of the Ministry o
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-<table id="directory" class="display" style="width:100%">
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>State</th>
-      <th>District</th>
-      <th>Address</th>
-      <th>Contact</th>
-      <th>Website</th>
-      <th>Industry Certification</th>
-      <th>Printing Sector Category</th>
-      <th>Core Activities</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<style>
+  /* Helps on narrow pages/themes */
+  .table-wrap { overflow-x: auto; }
+  table.dataTable { width: 100% !important; }
+</style>
+
+<div class="table-wrap">
+  <table id="directory" class="display nowrap" style="width:100%">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th>Website</th>
+        <th>Industry Certification</th>
+        <th>Printing Sector Category</th>
+        <th>Core Activities</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 
 <script>
-function makeClickableUrl(url) {
-  if (!url) return "";
-  url = String(url).trim();
-  if (!url) return "";
+function looksLikeUrl(value) {
+  if (!value) return false;
+  const s = String(value).trim();
+  if (!s) return false;
+
+  // If your CSV contains placeholders like "When available", don't treat them as URLs
+  const lower = s.toLowerCase();
+  if (lower === "when available" || lower === "n/a" || lower === "-" ) return false;
+
+  // Basic checks
+  if (s.startsWith("http://") || s.startsWith("https://")) return true;
+  return s.includes("."); // simple heuristic: domain usually has a dot
+}
+
+function makeClickableUrl(value) {
+  if (!looksLikeUrl(value)) return ""; // show blank instead of "When available"
+  let url = String(value).trim();
   const hasProtocol = url.startsWith("http://") || url.startsWith("https://");
   const safeUrl = hasProtocol ? url : "https://" + url;
   return `<a href="${safeUrl}" target="_blank" rel="noopener">${url}</a>`;
@@ -63,7 +84,9 @@ $(document).ready(function () {
 
       $('#directory').DataTable({
         data: tableData,
-        pageLength: 25
+        pageLength: 25,
+        scrollX: true,
+        autoWidth: false
       });
     },
     error: function(err) {
