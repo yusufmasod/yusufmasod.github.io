@@ -92,19 +92,11 @@ $(document).ready(function () {
       });
 
       /* Key fix: recalc column widths AFTER data loads and table renders */
-      setTimeout(function () {
-        dt.columns.adjust().draw(false);
-      }, 200);
+setTimeout(function () {
+  dt.columns.adjust().draw(false);
+}, 200);
 
-      /* Also recalc when window resizes */
-      $(window).on('resize', function () {
-        dt.columns.adjust();
-      });
-    },
-    error: function(err) {
-      console.error("CSV load error:", err);
-      alert("Could not load the CSV. Check the file name and that it is uploaded to the repo root.");
-    }
-  });
-});
-</script>
+/* Second adjustment after layout fully settles */
+setTimeout(function () {
+  dt.columns.adjust().draw(false);
+}, 800);
