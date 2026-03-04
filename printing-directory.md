@@ -7,8 +7,6 @@ title: Malaysia Printing Firms Directory
 
 # Licensed Printing Firms Directory (Malaysia)
 
-# Licensed Printing Firms Directory (Malaysia)
-
 This directory compiles companies associated with printing press licensing records administered by the Ministry of Home Affairs Malaysia under the Printing Presses and Publications Act 1984.
 
 The list is presented as a reference dataset for academic, educational, and informational purposes. It provides a searchable directory of printing firms including company name, state, district, and address information.
