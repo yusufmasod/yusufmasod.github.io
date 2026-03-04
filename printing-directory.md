@@ -7,10 +7,9 @@ title: Printing Firms Directory
 
 This page lists printing firms compiled from licensing records of the Ministry of Home Affairs Malaysia.
 
-<div id="table-container"></div>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <table id="directory" class="display">
@@ -24,7 +23,9 @@ This page lists printing firms compiled from licensing records of the Ministry o
 <th>Sector</th>
 </tr>
 </thead>
+
 <tbody>
+
 <tr>
 <td>Example Printing Sdn Bhd</td>
 <td>Selangor</td>
@@ -33,6 +34,16 @@ This page lists printing firms compiled from licensing records of the Ministry o
 <td>ISO 9001</td>
 <td>Offset</td>
 </tr>
+
+<tr>
+<td>ABC Digital Print</td>
+<td>Kuala Lumpur</td>
+<td>Kuala Lumpur</td>
+<td>abcprint.com</td>
+<td>-</td>
+<td>Digital</td>
+</tr>
+
 </tbody>
 </table>
 
