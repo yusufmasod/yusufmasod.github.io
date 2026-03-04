@@ -44,8 +44,10 @@ function looksLikeUrl(value) {
   if (!value) return false;
   const s = String(value).trim();
   if (!s) return false;
+
   const lower = s.toLowerCase();
   if (lower === "when available" || lower === "n/a" || lower === "-") return false;
+
   if (s.startsWith("http://") || s.startsWith("https://")) return true;
   return s.includes(".");
 }
@@ -59,10 +61,12 @@ function makeClickableUrl(value) {
 }
 
 $(document).ready(function () {
+
   Papa.parse("printing_press_License%20directory.csv", {
     download: true,
     header: true,
     skipEmptyLines: true,
+
     complete: function(results) {
       const rows = results.data || [];
 
@@ -79,30 +83,44 @@ $(document).ready(function () {
       ]));
 
       const dt = $('#directory').DataTable({
-  data: tableData,
-  pageLength: 25,
+        data: tableData,
+        pageLength: 25,
 
-  // Make wide tables stable
-  scrollX: true,
-  scrollXInner: "1600px",
-  scrollCollapse: true,
+        // wide-table stability
+        scrollX: true,
+        scrollCollapse: true,
+        autoWidth: false,
+        deferRender: true,
 
-  // Stability + performance
-  autoWidth: false,
-  deferRender: true,
-  fixedHeader: false,
+        // lock widths so header/body stay aligned
+        columns: [
+          { width: "260px" }, // Company
+          { width: "160px" }, // State
+          { width: "160px" }, // District
+          { width: "520px" }, // Address
+          { width: "160px" }, // Contact
+          { width: "160px" }, // Website
+          { width: "200px" }, // Industry Certification
+          { width: "240px" }, // Printing Sector Category
+          { width: "220px" }  // Core Activities
+        ]
+      });
 
-  // Force predictable widths for narrow columns
-  columns: [
-    { width: "260px" }, // Company
-    { width: "160px" }, // State
-    { width: "160px" }, // District
-    { width: "520px" }, // Address (wide)
-    { width: "160px" }, // Contact
-    { width: "160px" }, // Website
-    { width: "200px" }, // Industry Certification
-    { width: "240px" }, // Printing Sector Category
-    { width: "220px" }  // Core Activities
-  ]
+      // alignment fixes (after render)
+      setTimeout(function () { dt.columns.adjust().draw(false); }, 300);
+      setTimeout(function () { dt.columns.adjust().draw(false); }, 900);
+
+      // re-align on resize
+      $(window).on('resize', function () {
+        dt.columns.adjust();
+      });
+    },
+
+    error: function(err) {
+      console.error("CSV load error:", err);
+      alert("Could not load the CSV. Check the file name and ensure it is in the repo root.");
+    }
+  });
+
 });
 </script>
