@@ -1,8 +1,9 @@
 ---
 layout: default
-title: Printing Firms Directory
+title: Malaysia Printing Firms Directory
 ---
 
+<link rel="stylesheet" href="/assets/css/custom.css">
 # Licensed Printing Firms Directory (Malaysia)
 
 This page lists printing firms compiled from licensing records of the Ministry of Home Affairs Malaysia.
