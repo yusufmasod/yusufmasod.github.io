@@ -30,3 +30,10 @@ main,
 .table-wrap { width: 100%; overflow-x: auto; }
 #directory th { white-space: nowrap; }
 table.dataTable { width: 100% !important; }
+/* Nuclear option: expand common inner wrappers */
+.wrapper .container,
+.wrapper .page-content,
+.wrapper section,
+.wrapper article {
+  max-width: 1400px !important;
+}
