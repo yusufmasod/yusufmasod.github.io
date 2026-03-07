@@ -23,13 +23,22 @@
 
 ## Research Focus
 
-My research generally falls into several areas:
+My research examines how printing technology, digital workflows, and industry structures are evolving within contemporary print manufacturing and education. The work generally falls into three interconnected areas:
 
-- Artificial intelligence adoption and applications in printing and manufacturing
-- Digital prepress workflow, PDF standards, and print quality control
-- Printing industry structure, competitiveness, and post-disruption conditions
-- Printing technology, visual quality, and material-based print outcomes
-- Printing, art, education, and skill development
+**Digital Transformation of Print Production**
+
+- Artificial intelligence adoption and applications in printing and manufacturing  
+- Digital prepress workflow, PDF standards, and print production systems
+
+**Print Quality, Workflow Control, and Material Outcomes**
+
+- Proofing systems, visual quality evaluation, and print defect analysis  
+- Material and process characteristics across printing technologies
+
+**Printing Industry Development and Professional Formation**
+
+- Printing industry structure, competitiveness, and post-disruption conditions  
+- Printing education, workforce development, and industry–education collaboration
 
 ---
 
