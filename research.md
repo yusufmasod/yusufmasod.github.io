@@ -30,9 +30,36 @@ https://doi.org/10.47772/IJRISS.2024.81000013
 
 ## Digital Prepress Workflow, PDF Standards, and Print Quality Control
 
-This research area focuses on digital prepress workflows, PDF standards, and quality control practices in print production. The work examines workflow conformity, proofing procedures, and standards compliance, particularly in relation to PDF/X specifications, RIP configuration, calibration, and verification processes.
+This research area examines how reliability and quality are established in digital prepress workflows, from PDF/X conformity and RIP processing to proof verification and final print quality. The work is concerned with a practical question: how can print-ready files be processed predictably and reproduced consistently across prepress, proofing, and output stages?
 
-Studies in this area document testing methods and workflow assessments conducted in production environments and identify recurring technical errors and operational weaknesses. The emphasis is on consistency, reliability, and process control across prepress and output stages.
+One strand of this research focuses on PDF/X workflow conformity. These studies examine whether output workflows correctly interpret critical PDF/X-4 features such as overprinting, fonts, transparency, DeviceN colour definitions, 16-bit images, and compression settings. The findings show that workflow conformity cannot be assumed, and that different RIP-based systems may produce different results even when processing the same PDF/X-4 test files.
+
+A second strand develops procedural approaches for workflow validation. This includes structured methods for auditing PDF output workflows and assessing them using the Ghent Workgroup Output Suite (GOS5). The emphasis here is on practical assessment: identifying where workflow behavior deviates from standards and improving the reliability of digital prepress operations.
+
+A third strand addresses proofing as a quality management problem. This work proposes a quality-managed proofing approach based on calibration, proofer verification, and proof verification, with the aim of maintaining stable colour reproduction and improving consistency between proof and final print.
+
+Taken together, these studies argue that print quality is not determined at a single stage, but built across the workflow. Reliable output depends on standards conformity, controlled proofing conditions, and systematic attention to visual defects and process variation in print production.
+
+### Selected Publications
+
+Masod, M. Y., Zainuddin, A. A., & Azim, I. N. A. (2023).  
+An Approach to Quality-Managed Proofing.  
+2023 IEEE 13th Symposium on Computer Applications & Industrial Electronics (ISCAIE), 22–24.  
+https://doi.org/10.1109/ISCAIE57739.2023.10165452
+
+Masod, M. Y., & Aisyah Zainuddin, A. (2022).  
+Procedure Enhancement for PDF Output Workflow Conformity.  
+2022 IEEE 12th Symposium on Computer Applications & Industrial Electronics (ISCAIE), 144–148.  
+https://doi.org/10.1109/ISCAIE54458.2022.9794464
+
+Masod, M. Y. (2021).  
+PDF Output Workflow Conformance Test to the PDF/X-4 Standard (ISO 15930-7:2010).  
+December, 10–11.
+
+Masod, M. Y., Ahmad, R., & Mohamad, M. (2015).  
+A Survey of Offset Lithography Print Defects.  
+In O. H. Hassan, S. Z. Abidin, R. Anwar, & M. F. Kamaruzaman (Eds.), Proceedings of the International Symposium on Research of Arts, Design and Humanities (ISRADH 2014) (pp. 489–497). Springer Singapore.  
+https://doi.org/10.1007/978-981-287-530-3_50
 
 ---
 
