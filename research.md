@@ -72,16 +72,14 @@ Recent studies focus on the industry's ability to respond to structural change, 
 
 ### Selected Publications
 
-**Masod, M. Y., & Zakaria, S. F. (2024).**  
+Masod, M. Y., & Zakaria, S. F. (2024)  
 Redefining Malaysia’s Printing Landscape: Insights from Porter’s CAN Model.  
 *Jurnal Intelek*, 19(1).  
 https://doi.org/10.24191/ji.v19i1.24422  
 
 This study analyses the competitiveness of the Malaysian printing industry using Porter’s Competitive Advantage of Nations (CAN) model. The research evaluates factor conditions, demand patterns, supporting industries, firm rivalry, and the role of government policy in shaping industry competitiveness.
 
----
-
-**Masod, M. Y., & Zakaria, S. F. (2023).**  
+Masod, M. Y., & Zakaria, S. F. (2023).  
 The health and outlook of printing industry post-Covid-19: The insight into Malaysia printing industry.  
 *Journal of Print and Media Technology Research*, 12(1), 21–34.  
 https://doi.org/10.14622/JPMTR-2225  
