@@ -6,9 +6,25 @@ My research focuses on printing technology, print production systems, and the st
 
 ## Artificial Intelligence Adoption and Applications in Printing and Manufacturing
 
-My work in this area examines the use and adoption of artificial intelligence within the printing industry and related manufacturing environments. The studies discuss application domains reported in the literature, including production planning, quality management, predictive maintenance, supply chain functions, and organizational readiness.
+This research stream examines how artificial intelligence is being applied in manufacturing and printing environments, and the factors that shape its adoption within organizations.
 
-Several publications in this area are based on structured literature reviews and descriptive assessment models used to discuss adoption conditions. The work reports benefits, implementation challenges, and limitations noted in the source studies, including issues related to data quality, system integration, and empirical validation.
+The work combines two lines of inquiry. The first investigates the practical applications of artificial intelligence in industrial production, including predictive maintenance, process optimization, quality control, and production planning. These studies highlight how AI technologies can improve efficiency, reduce operational errors, and support data-driven decision making in manufacturing environments.
+
+The second line of work examines the organizational conditions that influence whether firms are able to adopt these technologies successfully. Building on the Technology–Organization–Environment (TOE) framework, the research identifies three interacting dimensions that shape AI adoption: technological readiness, organizational capability, and external pressures such as regulation and competition. Key determinants include data quality, IT infrastructure, leadership commitment, workforce skills, and government support policies.
+
+Taken together, these studies show that the benefits of AI in manufacturing are widely recognized, yet adoption remains uneven across industries. Successful implementation depends not only on technological capability but also on organizational readiness and supportive institutional conditions. This line of research contributes to understanding how emerging digital technologies transition from experimental tools to operational systems within industrial sectors.
+
+### Selected Publications
+
+Masod, M. Y., & Zakaria, S. F. (2024).  
+Artificial Intelligence in the Printing Industry: A Systematic Review of Industrial Applications, Challenges and Benefits.  
+*International Journal of Research and Innovation in Social Science*, VIII(IX), 1713–1732.  
+https://doi.org/10.47772/IJRISS.2024.8090141  
+
+Masod, M. Y., & Zakaria, S. F. (2024).  
+Artificial Intelligence Adoption in the Manufacturing Sector: Challenges and Strategic Framework.  
+*International Journal of Research and Innovation in Social Science*, VIII(X), 150–158.  
+https://doi.org/10.47772/IJRISS.2024.81000013
 
 ---
 
