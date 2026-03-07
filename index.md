@@ -10,7 +10,7 @@
 <td>
 
 Senior Lecturer, Department of Printing Technology  
-College of Creative Arts, Universiti Teknologi MARA (UiTM)  
+Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam  
 Email: [yusuf595@uitm.edu.my](mailto:yusuf595@uitm.edu.my)
 
 I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research examines technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.
