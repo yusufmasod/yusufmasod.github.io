@@ -90,11 +90,41 @@ This paper examines the condition of the Malaysian printing industry following t
 
 ---
 
-## Printing Technology, Visual Quality, and Material-Based Print Outcomes
+## Print Quality, Visual Appearance, and Material Outcomes
 
-This line of research addresses visual quality, print defects, proofing accuracy, special effects, and material-based characteristics of printed outputs. The studies focus on observable attributes including colour behaviour, surface properties, defect types, and process-specific differences between printing technologies.
+This research area examines print quality as both a technical and perceptual outcome. The work focuses on how visual appearance is shaped by workflow control, process characteristics, substrate interaction, and finishing treatment across different printing technologies.
 
-Several studies rely on surveys, subjective evaluation, or experimental observation rather than automated measurement. Conclusions are limited to documented visual characteristics, control practices, and observed process behaviour.
+One strand of this research addresses controlled reproduction and proofing. This work argues that quality in print cannot be left to final inspection alone, but must be managed through a structured process of calibration, proofer verification, and proof verification. The emphasis is on maintaining consistent colour reproduction and reliable correspondence between proof and final print.
+
+A second strand examines print defects and visual failures in production. Studies in this area identify recurring defects in offset lithography, including banding, colour cast, ghosting, misregistration, moiré, mottle, poor trapping, and poor text quality. The work shows that print quality is often judged through visual impression, but that this impression is shaped by process control at every production stage.
+
+A third strand explores how the appearance of printed products can be enhanced through material and finishing choices. Research on special effects such as laminates, textured and fragrant substrates, foil stamping, lenticular effects, and varnishes shows that printed products are evaluated not only for clarity and correctness, but also for visual attractiveness, memorability, and aesthetic value.
+
+Related work also investigates the microscopic characteristics of conventional and digital printouts. By examining image and text structures under magnification, this research highlights how different printing processes leave distinct visual and material signatures, with varying strengths in detail reproduction, contrast, edge quality, and surface behavior.
+
+Taken together, these studies show that print quality is not a single attribute. It emerges from the interaction of workflow control, print process, substrate, finishing, and human perception.
+
+### Selected Publications
+
+Masod, M. Y., Zainuddin, A. A., & Azim, I. N. A. (2023).  
+An Approach to Quality-Managed Proofing.  
+2023 IEEE 13th Symposium on Computer Applications & Industrial Electronics (ISCAIE), 22–24.  
+https://doi.org/10.1109/ISCAIE57739.2023.10165452
+
+Masod, M. Y., Ahmad, R., & Mohamad, M. (2015).  
+A Survey of Offset Lithography Print Defects.  
+In O. H. Hassan, S. Z. Abidin, R. Anwar, & M. F. Kamaruzaman (Eds.), Proceedings of the International Symposium on Research of Arts, Design and Humanities (ISRADH 2014) (pp. 489–497). Springer Singapore.  
+https://doi.org/10.1007/978-981-287-530-3_50
+
+Masod, M. Y., Mohamad, M., Kamaruzaman, M. F., & Anwar, R. (2015).  
+Enhancing the Appearance of Printed Products Using Special Effects.  
+In Proceedings of the International Symposium on Research of Arts, Design and Humanities (ISRADH 2014) (pp. 547–556). Springer Singapore.  
+https://doi.org/10.1007/978-981-287-530-3_56
+
+Masod, M. Y., Mohamad, M., & Yahya, M. F. Z. R. (2015).  
+Microscopic Image and Text Examination of Conventional and Digital Printouts.  
+In International Colloquium of Art and Design Education Research (i-CADER 2014) (pp. 35–45). Springer Singapore.  
+https://doi.org/10.1007/978-981-287-332-3_4.
 
 ---
 
