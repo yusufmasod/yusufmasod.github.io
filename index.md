@@ -21,6 +21,30 @@
 
 ---
 
+## Selected Research Contributions
+
+Masod, M. Y., & Zakaria, S. F. (2024).  
+Redefining Malaysia’s Printing Landscape: Insights from Porter’s CAN Model.  
+*Jurnal Intelek*, 19(1).  
+https://doi.org/10.24191/ji.v19i1.24422
+
+Masod, M. Y., & Zakaria, S. F. (2023).  
+The Health and Outlook of the Printing Industry Post-Covid-19: Insight into the Malaysian Printing Industry.  
+*Journal of Print and Media Technology Research*, 12(1), 21–34.  
+https://doi.org/10.14622/JPMTR-2225
+
+Masod, M. Y., & Zakaria, S. F. (2024).  
+Artificial Intelligence Adoption in the Manufacturing Sector: Challenges and Strategic Framework.  
+*International Journal of Research and Innovation in Social Science*, VIII(X), 150–158.  
+https://doi.org/10.47772/IJRISS.2024.81000013
+
+Masod, M. Y., Zainuddin, A. A., & Azim, I. N. A. (2023).  
+An Approach to Quality-Managed Proofing.  
+2023 IEEE 13th Symposium on Computer Applications & Industrial Electronics (ISCAIE).  
+https://doi.org/10.1109/ISCAIE57739.2023.10165452
+
+---
+
 ## Research Areas
 
 My research examines how printing technology, digital workflows, and industry structures are evolving within contemporary print manufacturing and education. The work generally falls into three interconnected areas:
