@@ -2,20 +2,22 @@
 
 <table>
 <tr>
-<td width="220">
+<td width="220" valign="top">
 
-<img src="myusuf.jpg" width="200" alt="Muhammad Yusuf Bin Masod">
+<img src="myusuf.jpg" width="190" alt="Muhammad Yusuf Bin Masod" style="border-radius:6px;">
 
 </td>
-<td>
+<td valign="top">
 
-Senior Lecturer, Department of Printing Technology  
+**Senior Lecturer**  
+Department of Printing Technology  
 Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam  
-Email: [yusuf595@uitm.edu.my](mailto:yusuf595@uitm.edu.my)
+Cawangan Selangor, Kampus Puncak Alam  
+[Email: yusuf595@uitm.edu.my](mailto:yusuf595@uitm.edu.my)
 
-I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research examines technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.
+I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research focuses on technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.
 
-My work also considers the structure and development of the printing industry, especially within Malaysia, including issues related to competitiveness, technological transition, and workforce development in printing and related creative industries.
+My work also examines the structure and development of the printing industry in Malaysia, including competitiveness, technological transition, and workforce development in printing and related creative industries.
 
 </td>
 </tr>
@@ -27,11 +29,11 @@ My work also considers the structure and development of the printing industry, e
 
 My research generally falls into several areas:
 
-- Artificial intelligence adoption and applications in printing and manufacturing  
-- Digital prepress workflow, PDF standards, and print quality control  
-- Printing industry structure, competitiveness, and post-disruption conditions  
-- Printing technology, visual quality, and material-based print outcomes  
-- Printing, art, education, and skill development  
+- Artificial intelligence adoption and applications in printing and manufacturing
+- Digital prepress workflow, PDF standards, and print quality control
+- Printing industry structure, competitiveness, and post-disruption conditions
+- Printing technology, visual quality, and material-based print outcomes
+- Printing, art, education, and skill development
 
 ---
 
