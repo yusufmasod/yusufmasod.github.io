@@ -21,7 +21,7 @@
 
 ---
 
-## Research Focus
+## Research Areas
 
 My research examines how printing technology, digital workflows, and industry structures are evolving within contemporary print manufacturing and education. The work generally falls into three interconnected areas:
 
