@@ -1,12 +1,27 @@
+<table>
+<tr>
+<td width="220">
+
+<img src="myusuf.jpg" width="200" alt="Muhammad Yusuf Bin Masod">
+
+</td>
+<td>
+
 # Muhammad Yusuf Bin Masod
 
 Senior Lecturer, Department of Printing Technology  
-Faculty of Art & Design, Universiti Teknologi MARA (UiTM) Cawangan Selangor, Puncak Alam Campus  
+Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam  
 Email: [yusuf595@uitm.edu.my](mailto:yusuf595@uitm.edu.my)
 
 I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research examines technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.
 
 My work also considers the structure and development of the printing industry, especially within Malaysia, including issues related to competitiveness, technological transition, and workforce development in printing and related creative industries.
+
+</td>
+</tr>
+</table>
+
+---
 
 ## Research Focus
 
@@ -17,6 +32,8 @@ My research generally falls into several areas:
 - Printing industry structure, competitiveness, and post-disruption conditions  
 - Printing technology, visual quality, and material-based print outcomes  
 - Printing, art, education, and skill development  
+
+---
 
 ## Navigation
 
