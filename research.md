@@ -52,9 +52,10 @@ Procedure Enhancement for PDF Output Workflow Conformity.
 2022 IEEE 12th Symposium on Computer Applications & Industrial Electronics (ISCAIE), 144–148.  
 https://doi.org/10.1109/ISCAIE54458.2022.9794464
 
-Masod, M. Y. (2021).  
-PDF Output Workflow Conformance Test to the PDF/X-4 Standard (ISO 15930-7:2010).  
-December, 10–11.
+Masod, M. Y., Hassan Nazri, N. S., & Nordin, N. (2021). 
+PDF Output Workflow Conformance Test to the PDF/X-4 Standard (ISO 15930-7:2010). 
+2021 IEEE 9th Conference on Systems, Process and Control (ICSPC 2021), December, 92–97. 
+https://doi.org/10.1109/ICSPC53359.2021.9689185.
 
 Masod, M. Y., Ahmad, R., & Mohamad, M. (2015).  
 A Survey of Offset Lithography Print Defects.  
@@ -99,9 +100,37 @@ Several studies rely on surveys, subjective evaluation, or experimental observat
 
 ## Printing, Art, Education, and Skill Development
 
-This research area brings together work on printing technologies in artistic practice, education, and workforce development. The studies discuss digital printing in contemporary art, online learning resources, curriculum needs, and education–industry collaboration initiatives.
+This research area examines how printing knowledge is developed, taught, and carried into practice across education, creative production, and the workplace. The work is concerned not only with technical skill acquisition, but also with the broader question of how professional competence in printing is formed, translated, and sustained.
 
-The focus remains on documented teaching practices, reported competency requirements, and perceptions of learners or institutions.
+One strand of this research focuses on workforce preparation and curriculum design. Early work identified the key competencies required in digital prepress, including job interpretation, digital imposition, page layout, software-based composition, and preflight checking. This line of study highlights the importance of aligning printing technology education with current industry requirements and technological change.
+
+A second strand explores teaching and learning environments. This includes research on the use of YouTube and open educational video resources in printing technology courses, showing that students value such materials most when they are carefully curated and embedded in guided discussion rather than treated as stand-alone content. The work points to the role of lecturers as mediators of relevance, credibility, and interpretation in technical education.
+
+A third strand examines printing as a creative and material practice. Research on digital inkjet printing for fine art reproduction shows how printing knowledge extends beyond industrial production into artistic reproduction, where issues of colour, surface, resolution, media choice, and proofing become central to the quality of the final work.
+
+More recent work extends this area into workplace learning and internship studies. This research shows that internships in the Malaysian printing industry are not only training mechanisms but also sites where tacit craft knowledge, supervision practices, professional identity, and industry reputation are negotiated. Together, these studies suggest that skill development in printing is shaped by the interaction of curriculum, workplace culture, and the hybrid demands of technological and creative practice.
+
+### Selected Publications
+
+Masod, M. Y. (2026).  
+Internship as Organizational Strategies: Talent, Tacit Knowledge and Identity Work in Malaysia’s Printing Industry.  
+*Quantum Journal of Social Sciences and Humanities*, 6, 229–240.  
+https://doi.org/10.55197/qjssh.v6i6.891
+
+Yusuf, M., Masod, B., Zainuddin, A. A., Azim, I. N. A., & Nordin, N. (2023).  
+Printing Technology Courses on YouTube: Exploring the Opportunities and Barriers of Online Learning.  
+2023 IEEE 12th International Conference on Engineering Education (ICEED), 60–63.  
+https://doi.org/10.1109/ICEED59801.2023.10264044
+
+Masod, M. Y., Mohamad, M., & Azim, I. N. A. (2015).  
+An Overview of the Digital Inkjet Printing for Fine Art Painting Reproduction.  
+In *Proceedings of the International Symposium on Research of Arts, Design and Humanities (ISRADH 2014)* (pp. 363–371). Springer Singapore.  
+https://doi.org/10.1007/978-981-287-530-3_37
+
+Masod, M. Y. bin, Ahmad, R., Shafia, J., Abdullah, H., Ahmad, R., & Shafia, J. (2012).  
+Identifying Key Digital Prepress Competence Requirements for Printing Technology Workforce.  
+ISBEIA 2012 - IEEE Symposium on Business, Engineering and Industrial Applications, 771–775.  
+https://doi.org/10.1109/ISBEIA.2012.6422995
 
 ---
 
