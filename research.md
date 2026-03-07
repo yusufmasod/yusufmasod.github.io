@@ -53,7 +53,7 @@ Procedure Enhancement for PDF Output Workflow Conformity.
 https://doi.org/10.1109/ISCAIE54458.2022.9794464
 
 Masod, M. Y., Hassan Nazri, N. S., & Nordin, N. (2021). 
-PDF Output Workflow Conformance Test to the PDF/X-4 Standard (ISO 15930-7:2010). 
+PDF Output Workflow Conformance Test to the PDF/X-4 Standard (ISO 15930-7:2010).
 2021 IEEE 9th Conference on Systems, Process and Control (ICSPC 2021), December, 92–97. 
 https://doi.org/10.1109/ICSPC53359.2021.9689185.
 
