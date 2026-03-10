@@ -1,1 +1,3 @@
 title: Muhammad Yusuf Bin Masod
+plugins:
+  - jekyll-sitemap
