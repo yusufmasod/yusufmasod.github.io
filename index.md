@@ -44,7 +44,7 @@ An Approach to Quality-Managed Proofing.
 https://doi.org/10.1109/ISCAIE57739.2023.10165452
 
 ---
-**Muhammad Yusuf Masod works on improving print quality and production systems through digital workflows, visual evaluation, and material-based analysis.**
+Muhammad Yusuf Masod focuses on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
 ---
 
 ## Research Areas
