@@ -44,10 +44,12 @@ An Approach to Quality-Managed Proofing.
 https://doi.org/10.1109/ISCAIE57739.2023.10165452
 
 ---
+**Muhammad Yusuf Masod works on improving print quality and production systems through digital workflows, visual evaluation, and material-based analysis.**
+---
 
 ## Research Areas
 
-My research examines digital transformation in print production, quality control in printing workflows, and the development of the printing industry, with particular attention to Malaysia:
+My research focuses on how digital workflows, visual quality evaluation, and material characteristics shape print production outcomes.
 
 **Digital Transformation of Print Production**
 
