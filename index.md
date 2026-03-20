@@ -1,5 +1,5 @@
 # Muhammad Yusuf Bin Masod
-
+I work on print quality, digital production workflows, and material-driven outcomes in modern printing systems, with a focus on how these elements shape production results.
 <table>
   <tr>
     <td width="220" valign="top">
