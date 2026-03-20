@@ -53,3 +53,35 @@ table.dataTable { width: 100% !important; }
   max-width: 1400px !important;
   width: 100% !important;
 }
+/* ---- Readability upgrade ---- */
+body {
+  line-height: 1.65;
+}
+
+p {
+  margin: 0 0 14px 0;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+}
+
+h2 {
+  margin-top: 36px;
+  margin-bottom: 12px;
+  padding-top: 8px;
+}
+
+ul, ol {
+  margin-bottom: 16px;
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* Give sections a bit more breathing room */
+section, article {
+  margin-bottom: 24px;
+}
