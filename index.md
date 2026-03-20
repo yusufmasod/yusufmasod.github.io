@@ -21,7 +21,7 @@
 
 ---
 
-## Selected Research Contributions
+## Research Contributions
 
 Focused on print quality evaluation, digital workflow systems, and industry transformation in Malaysia.
 
@@ -47,7 +47,6 @@ https://doi.org/10.1109/ISCAIE57739.2023.10165452
 
 ---
 Muhammad Yusuf Masod focuses on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
----
 
 ## Research Areas
 
