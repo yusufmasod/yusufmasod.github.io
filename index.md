@@ -23,6 +23,8 @@
 
 ## Selected Research Contributions
 
+Focused on print quality evaluation, digital workflow systems, and industry transformation in Malaysia.
+
 Masod, M. Y., & Zakaria, S. F. (2023).  
 The Health and Outlook of the Printing Industry Post-Covid-19: Insight into the Malaysian Printing Industry.  
 *Journal of Print and Media Technology Research*, 12(1), 21–34.  
