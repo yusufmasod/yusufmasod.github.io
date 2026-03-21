@@ -27,6 +27,7 @@ Focused on print quality, digital production workflows, and material-driven outc
 </table>
 
 ---
+<hr>
 
 ## Research Contributions
 
@@ -55,6 +56,8 @@ https://doi.org/10.1109/ISCAIE57739.2023.10165452
 ---
 Muhammad Yusuf Masod focuses on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
 
+<hr>
+
 ## Research Areas
 
 My research focuses on how digital workflows, visual quality evaluation, and material characteristics shape print production outcomes.
@@ -75,6 +78,8 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - Printing education, workforce development, and industry–education collaboration
 
 ---
+
+<hr>
 
 ## Navigation
 
