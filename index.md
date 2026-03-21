@@ -7,6 +7,7 @@ Focused on print quality, digital production workflows, and material-driven outc
 <a href="/publications" class="btn">Publications</a>
 <a href="/contact" class="btn">Contact</a>
 </div>
+
 <div class="profile-card">
   <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod">
 
@@ -21,7 +22,7 @@ Focused on print quality, digital production workflows, and material-driven outc
     <p>My work also examines the structure and development of the printing industry in Malaysia, including competitiveness, technological transition, and workforce development in printing and related creative industries.</p>
   </div>
 </div>
----
+
 <hr>
 
 ## Research Contributions
@@ -48,9 +49,6 @@ An Approach to Quality-Managed Proofing.
 2023 IEEE 13th Symposium on Computer Applications & Industrial Electronics (ISCAIE).  
 https://doi.org/10.1109/ISCAIE57739.2023.10165452
 
----
-Muhammad Yusuf Masod focuses on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
-
 <hr>
 
 ## Research Areas
@@ -72,8 +70,6 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - Printing industry structure, competitiveness, and post-disruption conditions  
 - Printing education, workforce development, and industry–education collaboration
 
----
-
 <hr>
 
 ## Navigation
@@ -85,6 +81,6 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - [Malaysia Printing Firms Directory](printing-directory)
 - [Curriculum Vitae](Muhammad_Yusuf_Bin_Masod_CV.pdf)
 
----
+<hr>
 
 This site provides information about my academic work, teaching activities, research interests, and projects related to printing technology and the Malaysian printing industry.
