@@ -7,25 +7,20 @@ Focused on print quality, digital production workflows, and material-driven outc
 <a href="/publications" class="btn">Publications</a>
 <a href="/contact" class="btn">Contact</a>
 </div>
-<table>
-  <tr>
-    <td width="220" valign="top">
-      <img src="myusuf.jpg" width="190" alt="Muhammad Yusuf Bin Masod" style="border-radius:6px;">
-    </td>
-    <td valign="top">
-      <p><strong>Senior Lecturer</strong><br>
-      Department of Printing Technology<br>
-      Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam<br>
-      Cawangan Selangor, Kampus Puncak Alam<br>
-      <a href="mailto:yusuf595@uitm.edu.my">Email: yusuf595@uitm.edu.my</a></p>
+<div class="profile-card">
+  <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod">
 
-      <p>I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research focuses on technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.</p>
+  <div class="profile-info">
+    <p><strong>Senior Lecturer</strong><br>
+    Department of Printing Technology<br>
+    Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam<br>
+    <a href="mailto:yusuf595@uitm.edu.my">Email: yusuf595@uitm.edu.my</a></p>
 
-      <p>My work also examines the structure and development of the printing industry in Malaysia, including competitiveness, technological transition, and workforce development in printing and related creative industries.</p>
-    </td>
-  </tr>
-</table>
+    <p>I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research focuses on technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.</p>
 
+    <p>My work also examines the structure and development of the printing industry in Malaysia, including competitiveness, technological transition, and workforce development in printing and related creative industries.</p>
+  </div>
+</div>
 ---
 <hr>
 
