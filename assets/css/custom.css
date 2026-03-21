@@ -146,7 +146,7 @@ hr {
   }
 
   .profile-card img {
-    width: 100%;
-    max-width: 220px;
+    width: 140px;
+    max-width: 140px;
   }
 }
