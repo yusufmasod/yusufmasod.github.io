@@ -127,12 +127,26 @@ hr {
 }
 
 .profile-card img {
-  width: 120px;
+  width: 140px;
+  max-width: 100%;
   height: auto;
   border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .profile-info {
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* Stack only on small screens */
+@media (max-width: 700px) {
+  .profile-card {
+    flex-direction: column;
+  }
+
+  .profile-card img {
+    width: 100%;
+    max-width: 220px;
+  }
 }
