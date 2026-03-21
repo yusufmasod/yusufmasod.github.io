@@ -1,6 +1,12 @@
-# Muhammad Yusuf Bin Masod
-I work on improving print quality and production workflows—focusing on how materials and processes affect real-world printing outcomes.
-My work connects research with practical printing systems used in industry.
+# Muhammad Yusuf Masod
+
+Focused on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
+
+<div style="margin-top: 12px;">
+<a href="/research" class="btn">Research</a>
+<a href="/publications" class="btn">Publications</a>
+<a href="/contact" class="btn">Contact</a>
+</div>
 <table>
   <tr>
     <td width="220" valign="top">
