@@ -6,9 +6,12 @@ This page lists selected professional certifications related to artificial intel
 
 ## Google for Education
 
-<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
-  <img src="/assets/Gemini Cert Educator Logo.png" alt="Gemini Certified Educator logo" style="width:56px; height:56px; object-fit:contain; display:block;">
-  Gemini Certified Educator
+<h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+  <img src="/assets/Gemini Cert Educator Logo.png" 
+       style="width:72px; height:72px; object-fit:contain; display:block;">
+  <span style="font-size:20px; font-weight:600;">
+    Gemini Certified Educator
+  </span>
 </h3>
 
 **Issuer:** Google for Education  
@@ -21,9 +24,12 @@ A Google Certified Gemini Educator demonstrates foundational knowledge of genera
 
 <hr>
 
-<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
-  <img src="/assets/Gemini Cert Faculty Logo.png" alt="Gemini Certified Faculty logo" style="width:56px; height:56px; object-fit:contain; display:block;">
-  Gemini Certified Faculty
+<h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+  <img src="/assets/Gemini Cert Faculty Logo.png" 
+       style="width:72px; height:72px; object-fit:contain; display:block;">
+  <span style="font-size:20px; font-weight:600;">
+    Gemini Certified Faculty
+  </span>
 </h3>
 
 **Issuer:** Google for Education  
@@ -38,9 +44,12 @@ A Google Certified Gemini Faculty member demonstrates foundational knowledge of 
 
 ## AI Professional Development
 
-<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
-  <img src="/assets/Google AI Essential Logo.png" alt="Google AI Essentials logo" style="width:56px; height:56px; object-fit:contain; display:block;">
-  Google AI Essentials
+<h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+  <img src="/assets/Google AI Essential Logo.png" 
+       style="width:72px; height:72px; object-fit:contain; display:block;">
+  <span style="font-size:20px; font-weight:600;">
+    Google AI Essentials
+  </span>
 </h3>
 
 **Issuer:** Google (via Coursera / Credly)  
