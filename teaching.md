@@ -40,7 +40,20 @@ My teaching focuses on print production systems, process control, and digital pr
     <li>Preparation of technical reports and presentations</li>
   </ul>
 </div>
+<p><strong>Teaching tools and applied practice</strong></p>
 
+<p>
+To support laboratory-based learning, structured worksheets were developed to guide students in interpreting measurement data during offset printing exercises. These tools assist students in translating technical values into practical process control decisions.
+</p>
+
+<ul>
+  <li><strong>Solid Ink Density (SID) Worksheet</strong> — supports monitoring and adjustment of ink density during press operation</li>
+  <li><strong>Tone Value Increase (TVI) Worksheet</strong> — supports analysis of dot gain behaviour and print consistency</li>
+</ul>
+
+<p>
+These tools are used during live printing sessions in the laboratory, helping students connect measurement, visual output, and process control.
+</p>
 <div class="course-card">
   <h3>Digital & Variable Data Printing</h3>
 
