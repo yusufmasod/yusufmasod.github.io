@@ -1,6 +1,6 @@
 # Teaching & Supervision
 
-My teaching focuses on print production systems, process control, and digital printing workflows, with emphasis on technical understanding, measurement practice, and applied industry tools.
+My teaching focuses on print production systems, process control, and digital printing workflows, with emphasis on measurement practice, applied tools, and laboratory-based learning.
 
 <hr>
 
@@ -43,7 +43,7 @@ My teaching focuses on print production systems, process control, and digital pr
   <p><strong>Teaching tools and applied practice</strong></p>
 
   <p>
-  To support laboratory-based learning, structured worksheets were developed to guide students in interpreting measurement data during offset printing exercises. These tools assist students in translating technical values into practical process control decisions.
+  Structured worksheets were developed to support laboratory-based learning and guide students in interpreting measurement data during offset printing exercises.
   </p>
 
   <ul>
