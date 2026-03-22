@@ -8,7 +8,7 @@ This page lists selected professional certifications related to artificial intel
 
 <h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
   <img src="/assets/Gemini Cert Educator Logo.png" 
-       style="width:150px; height:150px; object-fit:contain; display:block; border-radius:8px;">
+       style="width:200px; height:200px; object-fit:contain; display:block; border-radius:8px;">
   <span style="font-size:20px; font-weight:600;">
     Gemini Certified Educator
   </span>
@@ -24,7 +24,7 @@ A Google Certified Gemini Educator demonstrates foundational knowledge of genera
 
 <h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
   <img src="/assets/Gemini Cert Faculty Logo.png" 
-       style="width:90px; height:90px; object-fit:contain; display:block; border-radius:8px;">
+       style="width:200px; height:200px; object-fit:contain; display:block; border-radius:8px;">
   <span style="font-size:20px; font-weight:600;">
     Gemini Certified Faculty
   </span>
@@ -42,7 +42,7 @@ A Google Certified Gemini Faculty member demonstrates foundational knowledge of 
 
 <h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
   <img src="/assets/Google AI Essential Logo.png" 
-       style="width:90px; height:90px; object-fit:contain; display:block; border-radius:8px;">
+       style="width:200px; height:200px; object-fit:contain; display:block; border-radius:8px;">
   <span style="font-size:20px; font-weight:600;">
     Google AI Essentials
   </span>
