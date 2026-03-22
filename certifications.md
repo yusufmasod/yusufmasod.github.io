@@ -6,8 +6,8 @@ This page lists selected professional certifications related to artificial intel
 
 ## Google for Education
 
-<h3 style="display:flex; align-items:center; gap:8px;">
-  <img src="/assets/Gemini Cert Educator Logo.png" style="width:20px; height:20px;">
+<h3 style="display:flex; align-items:center; gap:12px;">
+  <img src="/assets/Gemini Cert Educator Logo.png" style="width:36px; height:36px; object-fit:contain;">
   Gemini Certified Educator
 </h3>  
 **Issuer:** Google for Education  
@@ -20,7 +20,10 @@ A Google Certified Gemini Educator demonstrates foundational knowledge of genera
 
 ---
 
-### Gemini Certified Faculty  
+<h3 style="display:flex; align-items:center; gap:12px;">
+  <img src="/assets/Gemini Cert Faculty Logo.png" style="width:36px; height:36px; object-fit:contain;">
+  Gemini Certified Faculty
+</h3>  
 **Issuer:** Google for Education  
 **Issued:** February 19, 2026  
 **Valid until:** February 19, 2029  
@@ -33,7 +36,10 @@ A Google Certified Gemini Faculty member demonstrates foundational knowledge of 
 
 ## AI Professional Development
 
-### Google AI Essentials  
+<h3 style="display:flex; align-items:center; gap:12px;">
+  <img src="/assets/Google AI Essential Logo.png" style="width:36px; height:36px; object-fit:contain;">
+  Google AI Essentials
+</h3>  
 **Issuer:** Google (via Coursera / Credly)  
 **Issued:** March 12, 2026  
 
