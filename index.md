@@ -2,10 +2,10 @@
 
 Focused on print quality, digital production workflows, and material-driven outcomes in modern printing systems.
 
-<div style="margin-top: 12px;">
-<a href="/research" class="btn">Research</a>
-<a href="/publications" class="btn">Publications</a>
-<a href="/contact" class="btn">Contact</a>
+<div class="top-buttons">
+  <a href="/research" class="btn">Research</a>
+  <a href="/publications" class="btn">Publications</a>
+  <a href="/contact" class="btn">Contact</a>
 </div>
 
 <div class="profile-card">
