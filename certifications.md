@@ -15,8 +15,6 @@ This page lists selected professional certifications related to artificial intel
 </h3>
 
 **Issuer:** Google for Education  
-**Issued:** February 19, 2026  
-**Valid until:** February 19, 2029  
 
 A Google Certified Gemini Educator demonstrates foundational knowledge of generative AI concepts and the core features and capabilities of Gemini within an educational context.
 
@@ -32,9 +30,7 @@ A Google Certified Gemini Educator demonstrates foundational knowledge of genera
   </span>
 </h3>
 
-**Issuer:** Google for Education  
-**Issued:** February 19, 2026  
-**Valid until:** February 19, 2029  
+**Issuer:** Google for Education    
 
 A Google Certified Gemini Faculty member demonstrates foundational knowledge of generative AI concepts and the core features and capabilities of Gemini within an educational context.
 
@@ -52,8 +48,7 @@ A Google Certified Gemini Faculty member demonstrates foundational knowledge of 
   </span>
 </h3>
 
-**Issuer:** Google (via Coursera / Credly)  
-**Issued:** March 12, 2026  
+**Issuer:** Google 
 
 This credential recognises foundational competence in applying artificial intelligence tools in workplace settings, including prompt writing, responsible AI use, and practical generative AI tasks.
 
