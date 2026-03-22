@@ -83,4 +83,4 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 
 <hr>
 
-This site provides information about my academic work, teaching activities, research interests, and projects related to printing technology and the Malaysian printing industry.
+This site highlights my academic work, teaching, and research in printing technology and the Malaysian printing industry.
