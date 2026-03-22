@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malaysia Printing Industry Monitor</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #222;
+      background: #fff;
+    }
+
+    h1, h2 {
+      line-height: 1.25;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      margin-bottom: 24px;
+      color: #444;
+    }
+
+    .chart-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 24px;
+      background: #fff;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 380px;
+      width: 100%;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #555;
+      margin-top: 24px;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #666;
+    }
+
+    a {
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>Malaysia Printing Industry Monitor</h1>
+  <p class="intro">
+    This page tracks selected indicators for Malaysia’s printing industry (MSIC 18110)
+    using annual figures drawn from official statistics reported in the underlying study.
+  </p>
+
+  <div class="chart-card">
+    <h2>Sales Value (RM million)</h2>
+    <div class="chart-wrap">
+      <canvas id="salesChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h2>Paid Employment</h2>
+    <div class="chart-wrap">
+      <canvas id="employmentChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h2>Salaries and Wages (RM million)</h2>
+    <div class="chart-wrap">
+      <canvas id="wagesChart"></canvas>
+    </div>
+  </div>
+
+  <p class="note">
+    <strong>Source:</strong> Department of Statistics Malaysia (DOSM), Monthly Manufacturing Statistics,
+    as compiled in Muhammad Yusuf Bin Masod, <em>Sectoral Performance of Malaysia’s Printing Industry, 2019–2025:
+    An Exploratory Analysis of Sales, Paid Employment, and Wages</em>.
+  </p>
+
+  <p class="small">
+    <a href="/">← Back to homepage</a>
+  </p>
+
+  <script>
+    const years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+
+    const salesData = [10119, 9369, 9747, 10953, 11353, 12777, 14136];
+    const employmentData = [53891, 52308, 54714, 57286, 58603, 58927, 60126];
+    const wagesData = [1849, 1816, 1807, 1892, 2015, 2097, 2161];
+
+    function makeLineChart(canvasId, label, data) {
+      new Chart(document.getElementById(canvasId), {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: label,
+            data: data,
+            tension: 0.25,
+            borderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 5,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false
+            }
+          }
+        }
+      });
+    }
+
+    makeLineChart('salesChart', 'Sales Value (RM million)', salesData);
+    makeLineChart('employmentChart', 'Paid Employees', employmentData);
+    makeLineChart('wagesChart', 'Salaries and Wages (RM million)', wagesData);
+  </script>
+</body>
+</html>
