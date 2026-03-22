@@ -10,10 +10,10 @@ Focused on print quality, digital production workflows, and material-driven outc
 
 <table style="width:100%; border:1px solid #e5e5e5; border-radius:8px; background:#fff; border-collapse:separate; margin-top:12px;">
   <tr>
-    <td style="width:140px; vertical-align:top; padding:16px;">
-      <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod" style="width:110px; max-width:110px; height:auto; border-radius:6px; display:block;">
+    <td style="width:120px; vertical-align:top; padding:14px 10px 14px 14px;">
+      <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod" style="width:90px; max-width:90px; height:auto; border-radius:6px; display:block;">
     </td>
-    <td style="vertical-align:top; padding:16px 16px 16px 0;">
+    <td style="vertical-align:top; padding:14px 14px 14px 6px;">
       <p><strong>Senior Lecturer</strong><br>
       Department of Printing Technology<br>
       Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam<br>
