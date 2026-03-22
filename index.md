@@ -84,6 +84,7 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - [Malaysia Printing Firms Directory](printing-directory)
 - [Curriculum Vitae](Muhammad_Yusuf_Bin_Masod_CV.pdf)
 - [Professional Certifications](certifications)
+- [Industry Monitor](/monitor)
 
 <hr>
 
