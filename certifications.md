@@ -6,10 +6,11 @@ This page lists selected professional certifications related to artificial intel
 
 ## Google for Education
 
-<h3 style="display:flex; align-items:center; gap:12px;">
-  <img src="/assets/Gemini Cert Educator Logo.png" style="width:36px; height:36px; object-fit:contain;">
+<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
+  <img src="/assets/Gemini Cert Educator Logo.png" alt="Gemini Certified Educator logo" style="width:56px; height:56px; object-fit:contain; display:block;">
   Gemini Certified Educator
-</h3>  
+</h3>
+
 **Issuer:** Google for Education  
 **Issued:** February 19, 2026  
 **Valid until:** February 19, 2029  
@@ -18,12 +19,13 @@ A Google Certified Gemini Educator demonstrates foundational knowledge of genera
 
 [View credential](https://edu.google.accredible.com/8829867b-ed91-415e-ad7a-5df827153330#acc.57GkhLZy)
 
----
+<hr>
 
-<h3 style="display:flex; align-items:center; gap:12px;">
-  <img src="/assets/Gemini Cert Faculty Logo.png" style="width:36px; height:36px; object-fit:contain;">
+<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
+  <img src="/assets/Gemini Cert Faculty Logo.png" alt="Gemini Certified Faculty logo" style="width:56px; height:56px; object-fit:contain; display:block;">
   Gemini Certified Faculty
-</h3>  
+</h3>
+
 **Issuer:** Google for Education  
 **Issued:** February 19, 2026  
 **Valid until:** February 19, 2029  
@@ -36,10 +38,11 @@ A Google Certified Gemini Faculty member demonstrates foundational knowledge of 
 
 ## AI Professional Development
 
-<h3 style="display:flex; align-items:center; gap:12px;">
-  <img src="/assets/Google AI Essential Logo.png" style="width:36px; height:36px; object-fit:contain;">
+<h3 style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
+  <img src="/assets/Google AI Essential Logo.png" alt="Google AI Essentials logo" style="width:56px; height:56px; object-fit:contain; display:block;">
   Google AI Essentials
-</h3>  
+</h3>
+
 **Issuer:** Google (via Coursera / Credly)  
 **Issued:** March 12, 2026  
 
