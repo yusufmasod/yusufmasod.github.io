@@ -9,7 +9,7 @@ Focused on print quality, digital production workflows, and material-driven outc
 </div>
 
 <div class="profile-card">
-  <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod">
+  <img src="myusuf.jpg" alt="Muhammad Yusuf Bin Masod" style="width:120px; max-width:120px; height:auto; border-radius:6px; display:block;">
 
   <div class="profile-info">
     <p><strong>Senior Lecturer</strong><br>
