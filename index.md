@@ -28,7 +28,21 @@ Focused on print quality, digital production workflows, and material-driven outc
 </table>
 
 <hr>
+## Selected Work
 
+- **Malaysia Printing Industry Monitor**  
+  A data-based monitor tracking sales, employment, and wages in Malaysia’s printing industry (MSIC 18110).  
+  → [View monitor](/monitor.html)
+
+- **Teaching tools for print process control**  
+  Structured worksheets (SID, TVI) developed for laboratory-based learning in offset printing, supporting interpretation of measurement and process control.  
+  → [View teaching](/teaching)
+
+- **AI adoption in printing (research)**  
+  Study examining how firms adopt artificial intelligence under financial and operational constraints in the Malaysian printing industry.  
+  → [View research](/research)
+
+<hr>
 ## Research Contributions
 
 Focused on print quality evaluation, digital workflow systems, and industry transformation in Malaysia.
