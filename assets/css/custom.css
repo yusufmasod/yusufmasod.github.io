@@ -124,11 +124,12 @@ hr {
   padding: 16px;
   border-radius: 8px;
   background: #ffffff;
+  margin-top: 12px;
 }
 
 .profile-card img {
-  width: 140px;
-  max-width: 100%;
+  width: 120px;
+  max-width: 120px;
   height: auto;
   border-radius: 6px;
   flex-shrink: 0;
@@ -139,32 +140,16 @@ hr {
   line-height: 1.6;
 }
 
-/* Stack only on small screens */
-@media (max-width: 700px) {
-  .profile-card {
-    flex-direction: column;
-  }
-
-  .profile-card img {
-    width: 140px;
-    max-width: 140px;
-  }
-}
-.profile-card {
-  margin-top: 12px;
-}
-
 @media (max-width: 700px) {
   .profile-card {
     flex-direction: column;
     align-items: center;
-    text-align: left;
   }
 
   .profile-card img {
-    width: 140px;
-    max-width: 140px;
-    margin-bottom: 8px;
+    width: 110px;
+    max-width: 110px;
+    margin-bottom: 10px;
   }
 
   .profile-info {
