@@ -15,3 +15,15 @@ My service and engagement activities are connected to academic development, prin
 - Academic and departmental service
 - Professional and scholarly engagement
 - Industry and community-facing activities related to printing technology
+  
+## Awards & Recognition
+
+### Bronze Award — eCONDEV 2024 (International e-Content Development Competition)
+- Awarded for: *From Pixel to Print: Learn and Apply* (MOOC development)
+- Organizer: Universiti Teknologi MARA (UiTM)
+- Date: August 2024
+
+### Bronze Award — eCONDEV 2021 (Virtual International e-Content Development Competition)
+- Awarded for: *PRINTHINK: Printing Technology Online Learning Courses*
+- Organizer: Universiti Teknologi MARA (UiTM)
+- Date: August 2021
