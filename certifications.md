@@ -8,7 +8,7 @@ This page lists selected professional certifications related to artificial intel
 
 <h3 style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
   <img src="/assets/Gemini Cert Educator Logo.png" 
-       style="width:90px; height:90px; object-fit:contain; display:block; border-radius:8px;">
+       style="width:150px; height:150px; object-fit:contain; display:block; border-radius:8px;">
   <span style="font-size:20px; font-weight:600;">
     Gemini Certified Educator
   </span>
