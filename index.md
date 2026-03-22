@@ -16,6 +16,9 @@ Focused on print quality, digital production workflows, and material-driven outc
       Department of Printing Technology<br>
       Faculty of Art & Design, Universiti Teknologi MARA (UiTM), Cawangan Selangor, Kampus Puncak Alam<br>
       <a href="mailto:yusuf595@uitm.edu.my">Email: yusuf595@uitm.edu.my</a></p>
+      <p style="margin-top:8px;">
+<strong>Professional Affiliation:</strong> Ghent Workgroup (GWG) — an international consortium developing standards for graphic arts workflows, with Universiti Teknologi MARA listed as an Educational Member.
+</p>
 
       <p>I work on printing technology, print production systems, and digital workflows within contemporary print manufacturing and education. My research focuses on technical processes, workflow standards, and operational practices that shape print production, with particular attention to digital prepress systems, print quality control, and the adoption of emerging technologies such as artificial intelligence.</p>
 
