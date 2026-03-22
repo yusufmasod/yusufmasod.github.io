@@ -62,7 +62,7 @@
 <body>
   <h1>Malaysia Printing Industry Monitor</h1>
   <p class="intro" style="max-width: 900px;">
-  The indicators show a clear pattern of disruption in 2020, uneven recovery in 2021, and stronger growth from 2022 onward. Sales expanded more strongly than employment and wages in the later period, suggesting that post-disruption growth outpaced labour and wage cost growth.
+  The indicators show disruption in 2020, uneven recovery in 2021, and stronger growth from 2022 onward. The addition of sales per employee helps show whether later expansion in the industry outpaced labour growth.
 </p>
 
   <div class="chart-card">
@@ -85,7 +85,14 @@
       <canvas id="wagesChart"></canvas>
     </div>
   </div>
-
+  
+<div class="chart-card">
+  <h2>Sales per Employee (RM)</h2>
+  <div class="chart-wrap">
+    <canvas id="salesPerEmployeeChart"></canvas>
+  </div>
+</div>
+  
   <p class="note">
     <strong>Source:</strong> Department of Statistics Malaysia (DOSM), Monthly Manufacturing Statistics,
     as compiled in Muhammad Yusuf Bin Masod, <em>Sectoral Performance of Malaysia’s Printing Industry, 2019–2025:
@@ -99,9 +106,13 @@
   <script>
     const years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
 
-    const salesData = [10119, 9369, 9747, 10953, 11353, 12777, 14136];
-    const employmentData = [53891, 52308, 54714, 57286, 58603, 58927, 60126];
-    const wagesData = [1849, 1816, 1807, 1892, 2015, 2097, 2161];
+   const salesData = [10119, 9369, 9747, 10953, 11353, 12777, 14136];
+const employmentData = [53891, 52308, 54714, 57286, 58603, 58927, 60126];
+const wagesData = [1849, 1816, 1807, 1892, 2015, 2097, 2161];
+
+const salesPerEmployeeData = salesData.map((sales, i) =>
+  Math.round((sales * 1000000) / employmentData[i])
+);
 
     function makeLineChart(canvasId, label, data) {
       new Chart(document.getElementById(canvasId), {
@@ -136,8 +147,9 @@
     }
 
     makeLineChart('salesChart', 'Sales Value (RM million)', salesData);
-    makeLineChart('employmentChart', 'Paid Employees', employmentData);
-    makeLineChart('wagesChart', 'Salaries and Wages (RM million)', wagesData);
+makeLineChart('employmentChart', 'Paid Employees', employmentData);
+makeLineChart('wagesChart', 'Salaries and Wages (RM million)', wagesData);
+makeLineChart('salesPerEmployeeChart', 'Sales per Employee (RM)', salesPerEmployeeData);
   </script>
 </body>
 </html>
