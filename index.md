@@ -72,8 +72,8 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - Printing education, workforce development, and industry–education collaboration
 
 <hr>
-
-## Navigation
+<hr style="margin-top:40px;">
+## Explore
 
 - [About](about)
 - [Research](research)
