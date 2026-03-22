@@ -142,3 +142,12 @@ hr {
     width: 100%;
   }
 }
+.top-buttons {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.top-buttons .btn {
+  display: inline-block;
+  margin-right: 10px;
+}
