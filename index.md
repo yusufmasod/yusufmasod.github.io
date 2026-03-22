@@ -71,7 +71,6 @@ My research focuses on how digital workflows, visual quality evaluation, and mat
 - Printing industry structure, competitiveness, and post-disruption conditions  
 - Printing education, workforce development, and industry–education collaboration
 
-<hr>
 <hr style="margin-top:40px;">
 ## Explore
 
