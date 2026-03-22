@@ -6,7 +6,10 @@ This page lists selected professional certifications related to artificial intel
 
 ## Google for Education
 
-### Gemini Certified Educator  
+<h3 style="display:flex; align-items:center; gap:10px;">
+  <img src="/assets/Gemini Cert Educator Logo.png" style="width:22px; height:22px;">
+  Gemini Certified Educator
+</h3>  
 **Issuer:** Google for Education  
 **Issued:** February 19, 2026  
 **Valid until:** February 19, 2029  
