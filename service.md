@@ -1,14 +1,17 @@
 # Service & Engagement
 
-This page summarises my academic service and professional engagement activities.
-Details are updated selectively to reflect formal roles and documented contributions
-within the university, the profession, and where applicable, industry and community contexts.
+This page highlights selected academic service, professional contributions, and industry engagement related to printing technology, higher education, and applied professional practice.
 
-## University / faculty service
-- Committee / role — year
+<hr>
 
-## Professional service
-- Reviewer / editor / society — year
+## Current focus
 
-## Community / industry engagement (optional)
-- Talk / workshop / consultancy — year
+My service and engagement activities are connected to academic development, printing technology education, professional collaboration, and selected industry-facing contributions. This page will be updated as formal roles, review work, invited activities, and documented engagements are consolidated.
+
+<hr>
+
+## Areas of contribution
+
+- Academic and departmental service
+- Professional and scholarly engagement
+- Industry and community-facing activities related to printing technology
