@@ -1,52 +1,75 @@
 # Teaching & Supervision
 
+My teaching focuses on print production systems, process control, and digital printing workflows, with emphasis on technical understanding, measurement practice, and applied industry tools.
+
+<hr>
+
 ## Courses
 
-### Printing Process Control
-This course addresses process and quality control in offset lithography, treating prepress, plate making, and printing as an integrated workflow. Emphasis is placed on understanding color perception, color reproduction theory, plate-making procedures, and pressrun operations. Measurement, standards, and specifications are presented as necessary components for controlling print quality in offset lithography.
+<div class="course-card">
+  <h3>Printing Process Control</h3>
 
-**Topics**
-- Process and quality control in offset lithography  
-- Integrated workflow: prepress, plate making, and printing  
-- Fundamentals of color perception  
-- Color reproduction theory in offset lithography  
-- Plate-making procedures  
-- Pressrun operation  
-- Measurement in print quality control  
-- Standards and specifications for process control  
+  <p>
+  This course examines process and quality control in offset lithography, treating prepress, plate making, and printing as an integrated workflow. It introduces students to colour perception, colour reproduction, plate-making procedures, pressrun operations, and the use of standards and measurement in print quality control.
+  </p>
 
-**Learning activities and tools**
-- Monitor color verification using X-Rite i1Profiler  
-- Color measurement using X-Rite i1 Pro  
-- Analysis of verification reports (ΔE₀₀ values, neutral gray range)  
-- Dot uniformity testing on offset printing plates  
-- Use of Techkon Spectroplate and SpectroConnect software  
-- Digital color proof verification using Fogra MediaWedge CMYK V3  
-- Process control analysis based on Solid Ink Density (SID)  
-- Tone Value Increase (TVI / Dot Gain) analysis  
-- Print Contrast measurement  
-- Ink Trapping analysis  
-- Preparation of technical reports and presentations  
+  <p><strong>Topics</strong></p>
+  <ul>
+    <li>Process and quality control in offset lithography</li>
+    <li>Integrated workflow: prepress, plate making, and printing</li>
+    <li>Fundamentals of colour perception</li>
+    <li>Colour reproduction theory in offset lithography</li>
+    <li>Plate-making procedures</li>
+    <li>Pressrun operation</li>
+    <li>Measurement in print quality control</li>
+    <li>Standards and specifications for process control</li>
+  </ul>
 
----
-### Digital & Variable Data Printing
-This course examines established and emerging digital printing technologies, with attention to their technological characteristics and typical applications. The position of digital printing within the printing industry is addressed alongside its use in variable data printing, print-on-demand production, web-to-print processes, and related production workflows. Data management practices used in digital printing environments are also covered.
+  <p><strong>Learning activities and tools</strong></p>
+  <ul>
+    <li>Monitor colour verification using X-Rite i1Profiler</li>
+    <li>Colour measurement using X-Rite i1 Pro</li>
+    <li>Analysis of verification reports (ΔE₀₀ values, neutral gray range)</li>
+    <li>Dot uniformity testing on offset printing plates</li>
+    <li>Use of Techkon Spectroplate and SpectroConnect software</li>
+    <li>Digital colour proof verification using Fogra MediaWedge CMYK V3</li>
+    <li>Process control analysis based on Solid Ink Density (SID)</li>
+    <li>Tone Value Increase (TVI / Dot Gain) analysis</li>
+    <li>Print Contrast measurement</li>
+    <li>Ink Trapping analysis</li>
+    <li>Preparation of technical reports and presentations</li>
+  </ul>
+</div>
 
-**Topics**
-- Digital printing technologies  
-- Technological characteristics of digital printing systems  
-- Applications of digital printing  
-- Variable data printing  
-- Print-on-demand production  
-- Web-to-print processes  
-- Digital printing production workflows  
-- Data-driven print processes  
-- Data management in digital printing  
-- Data scrubbing and data cleansing  
+<div class="course-card">
+  <h3>Digital & Variable Data Printing</h3>
 
-**Learning activities and tools**
-- Discussion of advanced theory and concepts in on-demand digital printing  
-- Examination of data-driven print in relation to digital printing production steps  
-- Analysis of value propositions in digital printing services
+  <p>
+  This course explores established and emerging digital printing technologies, their technical characteristics, and their role in contemporary print production. It covers variable data printing, print-on-demand production, web-to-print processes, and data management practices used in digital printing environments.
+  </p>
 
-Materials are delivered through Google Classroom & UiTM UFUTURE.
+  <p><strong>Topics</strong></p>
+  <ul>
+    <li>Digital printing technologies</li>
+    <li>Technological characteristics of digital printing systems</li>
+    <li>Applications of digital printing</li>
+    <li>Variable data printing</li>
+    <li>Print-on-demand production</li>
+    <li>Web-to-print processes</li>
+    <li>Digital printing production workflows</li>
+    <li>Data-driven print processes</li>
+    <li>Data management in digital printing</li>
+    <li>Data scrubbing and data cleansing</li>
+  </ul>
+
+  <p><strong>Learning activities and tools</strong></p>
+  <ul>
+    <li>Discussion of advanced theory and concepts in on-demand digital printing</li>
+    <li>Examination of data-driven print in relation to digital printing production steps</li>
+    <li>Analysis of value propositions in digital printing services</li>
+  </ul>
+</div>
+
+<hr>
+
+Materials are delivered through Google Classroom and UiTM UFUTURE.
