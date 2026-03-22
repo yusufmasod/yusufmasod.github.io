@@ -45,35 +45,25 @@ My teaching focuses on print production systems, process control, and digital pr
   <h3>Digital & Variable Data Printing</h3>
 
   <p>
-  This course explores established and emerging digital printing technologies, their technical characteristics, and their role in contemporary print production. It covers variable data printing, print-on-demand production, web-to-print processes, and data management practices used in digital printing environments.
+  This course explores established and emerging digital printing technologies...
   </p>
 
   <p><strong>Topics</strong></p>
   <ul>
-    <li>Digital printing technologies</li>
-    <li>Technological characteristics of digital printing systems</li>
-    <li>Applications of digital printing</li>
-    <li>Variable data printing</li>
-    <li>Print-on-demand production</li>
-    <li>Web-to-print processes</li>
-    <li>Digital printing production workflows</li>
-    <li>Data-driven print processes</li>
-    <li>Data management in digital printing</li>
-    <li>Data scrubbing and data cleansing</li>
+    ...
   </ul>
 
   <p><strong>Learning activities and tools</strong></p>
   <ul>
-    <li>Discussion of advanced theory and concepts in on-demand digital printing</li>
-    <li>Examination of data-driven print in relation to digital printing production steps</li>
-    <li>Analysis of value propositions in digital printing services</li>
+    ...
+  </ul>
+
+  <p><strong>Related work and recognition</strong></p>
+  <ul>
+    <li><em>From Pixel to Print: Learn and Apply</em> — Bronze Award, eCONDEV 2024</li>
+    <li><em>PRINTHINK: Printing Technology Online Learning Courses</em> — Bronze Award, eCONDEV 2021</li>
   </ul>
 </div>
-**Related work and recognition**  
-This course is supported by developed online learning materials, including:
-
-- *From Pixel to Print: Learn and Apply* — Bronze Award, International e-Content Development Competition (eCONDEV 2024)  
-- *PRINTHINK: Printing Technology Online Learning Courses* — Bronze Award, eCONDEV 2021
 <hr>
 
 Materials are delivered through Google Classroom and UiTM UFUTURE.
