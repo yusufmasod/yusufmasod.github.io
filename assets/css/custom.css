@@ -151,3 +151,26 @@ hr {
   display: inline-block;
   margin-right: 10px;
 }
+/* ---- Teaching course cards ---- */
+.course-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 18px;
+  margin-top: 18px;
+  background: #ffffff;
+}
+
+.course-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.course-card p strong {
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.course-card ul {
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
