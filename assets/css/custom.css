@@ -150,3 +150,24 @@ hr {
     max-width: 140px;
   }
 }
+.profile-card {
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  }
+
+  .profile-card img {
+    width: 140px;
+    max-width: 140px;
+    margin-bottom: 8px;
+  }
+
+  .profile-info {
+    width: 100%;
+  }
+}
