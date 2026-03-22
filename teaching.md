@@ -97,5 +97,36 @@ My teaching focuses on print production systems, process control, and digital pr
     <li><em>PRINTHINK: Printing Technology Online Learning Courses</em> — Bronze Award, Virtual International e-Content Development Competition (eCONDEV 2021)</li>
   </ul>
 </div>
+<div class="course-card">
+  <h3>Internship Coordination and Placement Support</h3>
 
+  <p>
+  As Internship Coordinator for Printing Technology, I developed a structured placement-support worksheet to help students compare potential host organisations and make more informed internship decisions. The tool was designed to support students who may find it difficult to evaluate industrial placements systematically, particularly when balancing practical, technical, and organisational considerations.
+  </p>
+
+  <p><strong>Purpose and use</strong></p>
+  <ul>
+    <li>Guide students in comparing potential internship organisations</li>
+    <li>Support structured judgement rather than ad hoc choice</li>
+    <li>Improve alignment between placement selection and programme expectations</li>
+    <li>Assist academic review of host suitability and learning potential</li>
+  </ul>
+
+  <p><strong>Key features</strong></p>
+  <ul>
+    <li>Host-organisation comparison across multiple criteria</li>
+    <li>Structured scoring and decision support</li>
+    <li>Consideration of learning value, supervision, and placement suitability</li>
+    <li>Use in internship briefing, advising, and placement review</li>
+  </ul>
+
+  <p>
+  The worksheet supports a more consistent and reflective internship selection process, helping students think through placement choices more critically before entering industry training.
+  </p>
+
+  <p><strong>Note</strong></p>
+  <p>
+  A working internal version is used for coordination and advising. Public download is not provided because the full workbook includes internal administrative and student-specific information.
+  </p>
+</div>
 <p>Materials are delivered through Google Classroom and UiTM UFUTURE.</p>
