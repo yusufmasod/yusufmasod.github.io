@@ -69,7 +69,11 @@ My teaching focuses on print production systems, process control, and digital pr
     <li>Analysis of value propositions in digital printing services</li>
   </ul>
 </div>
+**Related work and recognition**  
+This course is supported by developed online learning materials, including:
 
+- *From Pixel to Print: Learn and Apply* — Bronze Award, International e-Content Development Competition (eCONDEV 2024)  
+- *PRINTHINK: Printing Technology Online Learning Courses* — Bronze Award, eCONDEV 2021
 <hr>
 
 Materials are delivered through Google Classroom and UiTM UFUTURE.
