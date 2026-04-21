@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malaysia Printing Industry Monitor</title>
+  <title>Malaysia Printing Industry Monitor (2019–2025): Trends, Jobs, and Future Outlook</title>
+  <meta name="description" content="Official statistics on Malaysia's printing industry (2019–2025). Explore trends in sales, jobs, wages, and what they mean for students and careers." />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -54,21 +56,55 @@
       color: #666;
     }
 
+    ul {
+      padding-left: 18px;
+    }
+
     a {
       color: #222;
     }
   </style>
 </head>
+
 <body>
-  <h1>Malaysia Printing Industry Monitor</h1>
 
-<p style="font-size:16px; color:#555; margin-top:-6px;">
-  A visual monitor based on official statistics for MSIC 18110 Printing, Malaysia.
-</p>
+  <h1>Malaysia Printing Industry Monitor (2019–2025)</h1>
 
-<p class="intro" style="max-width: 900px;">
-  These indicators track disruption in 2020, uneven recovery in 2021, and stronger growth from 2022 onward. Sales per employee is included to show whether later expansion outpaced labour growth.
-</p>
+  <p style="font-size:15px; color:#555;">
+    Based on official statistics, this page explains how the printing industry in Malaysia has changed and what it means for study and career pathways.
+  </p>
+
+  <p class="intro" style="max-width: 900px;">
+    This monitor presents trends in Malaysia’s printing industry (MSIC 18110) from 2019 to 2025. It shows how the industry moved through contraction in 2020, partial recovery in 2021, and stronger expansion from 2022 onward, while highlighting differences between sales growth, employment, and wages.
+  </p>
+
+  <!-- FUTURE / STUDENT-FACING SECTION -->
+  <div class="chart-card">
+    <h2>Is There a Future in the Printing Industry?</h2>
+    <p>
+      The data shows that Malaysia’s printing industry did not disappear after digitalisation. After a decline in 2020, the industry recovered and expanded from 2022 onward, reaching its highest recorded sales in 2025.
+    </p>
+    <p>
+      Growth has been driven more by higher output and changing production methods than by large increases in labour. This suggests a shift toward more efficient operations, new technologies, and evolving roles in the industry.
+    </p>
+    <p>
+      For students, this means the printing sector is changing rather than disappearing. Opportunities may increasingly involve digital printing, packaging, design integration, and production management rather than traditional large-scale print work alone.
+    </p>
+  </div>
+
+  <!-- KEY FINDINGS -->
+  <div class="chart-card">
+    <h2>Key Findings (2019–2025)</h2>
+    <ul>
+      <li>The printing industry experienced a contraction in 2020, followed by recovery and stronger expansion from 2022 onward.</li>
+      <li>Sales exceeded pre-2020 levels and reached a new peak in 2025.</li>
+      <li>Employment recovered earlier than wages but grew more slowly than sales in later years.</li>
+      <li>Sales per employee increased more strongly than wages per employee.</li>
+      <li>The wage share of sales declined, indicating reduced labour cost intensity.</li>
+    </ul>
+  </div>
+
+  <!-- CHARTS -->
 
   <div class="chart-card">
     <h2>Sales Value (RM million)</h2>
@@ -90,32 +126,37 @@
       <canvas id="wagesChart"></canvas>
     </div>
   </div>
-  
-<div class="chart-card">
-  <h2>Sales per Employee (RM)</h2>
-  <div class="chart-wrap">
-    <canvas id="salesPerEmployeeChart"></canvas>
+
+  <div class="chart-card">
+    <h2>Sales per Employee (RM)</h2>
+    <div class="chart-wrap">
+      <canvas id="salesPerEmployeeChart"></canvas>
+    </div>
   </div>
-</div>
-  
- <p class="note">
-  <strong>Source:</strong> Department of Statistics Malaysia (DOSM), Monthly Manufacturing Statistics; compiled from Muhammad Yusuf Bin Masod, <em>Sectoral Performance of Malaysia’s Printing Industry, 2019–2025: An Exploratory Analysis of Sales, Paid Employment, and Wages</em>.
-</p>
+
+  <!-- SOURCE -->
+
+  <p class="note">
+    <strong>Source:</strong> Department of Statistics Malaysia (DOSM), Monthly Manufacturing Statistics; compiled from Muhammad Yusuf Bin Masod, 
+    <em>Sectoral Performance of Malaysia’s Printing Industry, 2019–2025</em>.
+  </p>
 
   <p class="small">
     <a href="/" style="text-decoration:none;">← Back to homepage</a>
   </p>
 
+  <!-- CHART SCRIPT -->
+
   <script>
     const years = ['2019', '2020', '2021', '2022', '2023', '2024', '2025'];
 
-   const salesData = [10119, 9369, 9747, 10953, 11353, 12777, 14136];
-const employmentData = [53891, 52308, 54714, 57286, 58603, 58927, 60126];
-const wagesData = [1849, 1816, 1807, 1892, 2015, 2097, 2161];
+    const salesData = [10119, 9369, 9747, 10953, 11353, 12777, 14136];
+    const employmentData = [53891, 52308, 54714, 57286, 58603, 58927, 60126];
+    const wagesData = [1849, 1816, 1807, 1892, 2015, 2097, 2161];
 
-const salesPerEmployeeData = salesData.map((sales, i) =>
-  Math.round((sales * 1000000) / employmentData[i])
-);
+    const salesPerEmployeeData = salesData.map((sales, i) =>
+      Math.round((sales * 1000000) / employmentData[i])
+    );
 
     function makeLineChart(canvasId, label, data) {
       new Chart(document.getElementById(canvasId), {
@@ -136,23 +177,20 @@ const salesPerEmployeeData = salesData.map((sales, i) =>
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: {
-              display: true
-            }
+            legend: { display: true }
           },
           scales: {
-            y: {
-              beginAtZero: false
-            }
+            y: { beginAtZero: false }
           }
         }
       });
     }
 
     makeLineChart('salesChart', 'Sales Value (RM million)', salesData);
-makeLineChart('employmentChart', 'Paid Employees', employmentData);
-makeLineChart('wagesChart', 'Salaries and Wages (RM million)', wagesData);
-makeLineChart('salesPerEmployeeChart', 'Sales per Employee (RM)', salesPerEmployeeData);
+    makeLineChart('employmentChart', 'Paid Employees', employmentData);
+    makeLineChart('wagesChart', 'Salaries and Wages (RM million)', wagesData);
+    makeLineChart('salesPerEmployeeChart', 'Sales per Employee (RM)', salesPerEmployeeData);
   </script>
+
 </body>
 </html>
