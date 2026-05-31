@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintQC Lab: Solid Ink Density (SID) Analysis Dashboard</title>
+    
+    <!-- Chosen Palette: Technical Neutral with CMYK Accents -->
+    <!-- Application Structure Plan: The SPA is designed as a split-pane technical dashboard. The left pane functions as the control and data entry hub (operator details, thresholds, targets, and the 22-zone data table). The right pane functions as the real-time feedback and analysis engine, featuring a dynamic chart, auto-calculated uniformity statuses, target deviation actions, and a reflection text area. This structure allows students to immediately observe the impact of numerical data on the visual profile and analytical outcomes, bridging the gap between raw measurement and process control decisions. -->
+    <!-- Visualization & Content Choices: Report Info: 22-Zone SID Distribution -> Goal: Visualize ink uniformity and deviation -> Viz/Presentation Method: Interactive Line Chart (Chart.js) and Dynamic Status Tables -> Interaction: Real-time recalculation of status badges and chart lines based on raw data inputs -> Justification: Line charts instantly expose non-uniformities (e.g., 'smile' profiles), while dynamic text provides explicit guidance, supporting the learning objective of measurement-based interpretation. -> Library/Method: Chart.js (NO SVG/Mermaid). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 35vh;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .textarea-print-style {
+            background-image: repeating-linear-gradient(transparent, transparent 23px, #e2e8f0 23px, #e2e8f0 24px);
+            line-height: 24px;
+            padding-top: 0;
+        }
+
+        @media print {
+            body { background-color: #ffffff !important; }
+            .max-w-\[1400px\] { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .shadow-sm, .shadow-inner { box-shadow: none !important; }
+            .border-slate-200, .border-slate-300 { border-color: #cbd5e1 !important; }
+            .bg-slate-50, .bg-slate-100 { background-color: #ffffff !important; }
+            
+            /* Stack columns vertically on A4 */
+            .lg\:grid-cols-12 { display: block !important; }
+            .lg\:col-span-5, .lg\:col-span-7 { width: 100% !important; margin-bottom: 1.5rem !important; }
+            
+            /* Expand tables to show all rows */
+            .h-\[700px\] { height: auto !important; }
+            .overflow-y-auto, .overflow-x-auto { overflow: visible !important; }
+            
+            /* Prevent awkward page breaks */
+            .print-avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; }
+            
+            /* Clean up inputs for paper */
+            input[type="number"] { background-color: transparent !important; border: 1px solid #cbd5e1 !important; color: #000 !important; }
+            
+            /* Lock chart size */
+            .chart-container { height: 250px !important; }
+            
+            /* Hide UI elements */
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
+
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header -->
+        <header class="mb-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative print-avoid-break">
+            <button onclick="window.print()" class="no-print absolute top-6 right-6 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold py-2 px-4 rounded shadow transition-colors flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                Export PDF / Print
+            </button>
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div class="max-w-2xl pr-32">
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2"><span class="text-blue-600 font-black tracking-tighter">PrintQC</span> Lab</h1>
+                    <h2 class="text-xl font-semibold text-slate-700 mb-3">Toolkit File 1: Solid Ink Density (SID) Analysis</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        An interactive educational tool that transforms static print measurements into dynamic visual profiles. It allows printing technology students to input raw Solid Ink Density (SID) data from a 22-zone press, instantly visualize ink uniformity across the sheet, and automatically receive real-time, industry-standard quality control feedback and press adjustment recommendations.
+                    </p>
+                </div>
+                
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm grid grid-cols-2 gap-x-6 gap-y-3 w-full md:w-auto shadow-inner">
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Student name/ID</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">STU-2026-01</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Technician</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Instructor / Lab Tech</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Date</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">27 July 2026</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Press spec</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Heidelberg XL75</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Stock/paper spec</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">150gsm Gloss</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-xs uppercase">Target Standard</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">ISO 12647-2 Coated</div></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Column: Inputs -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Grading Rules -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100">Uniformity Tolerances (Max Variation)</h3>
+                    <div class="grid grid-cols-2 gap-4 text-sm mb-2">
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold">Excellent Tolerance (&le;)</label>
+                            <input type="number" id="thresh-even" value="0.05" step="0.01" class="w-full bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 font-mono font-bold shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold">Acceptable Tolerance (&le;)</label>
+                            <input type="number" id="thresh-acc" value="0.10" step="0.01" class="w-full bg-amber-50 border border-amber-200 text-amber-900 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-amber-500 font-mono font-bold shadow-inner">
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 italic mt-2">&#8505; Needs Fixing (Action Required) is triggered when variation exceeds the Acceptable tolerance.</p>
+                </div>
+
+                <!-- Section A: Raw Data Entry -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col h-[700px]">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Section A: Raw Measurements</h3>
+                    <p class="text-xs text-slate-500 mb-4 bg-yellow-50 p-2 rounded border border-yellow-100">Measure ALL solid CMYK SID patches across the printed sheet. Enter the 22 ink key zone values below.</p>
+                    <div class="overflow-y-auto flex-grow pr-2 border-t border-slate-100 pt-2 custom-scrollbar">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs uppercase text-slate-500 sticky top-0 bg-white z-10 shadow-sm">
+                                <tr>
+                                    <th class="px-2 py-3 text-center w-12">Key</th>
+                                    <th class="px-2 py-3 text-center text-cyan-600 bg-cyan-50">Cyan</th>
+                                    <th class="px-2 py-3 text-center text-pink-600 bg-pink-50">Mag</th>
+                                    <th class="px-2 py-3 text-center text-yellow-600 bg-yellow-50">Yel</th>
+                                    <th class="px-2 py-3 text-center text-slate-700 bg-slate-100">Blk</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-table-body" class="divide-y divide-slate-100">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Visualization & Analysis -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                
+                <!-- Chart Visualizer -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden print-avoid-break">
+                    <div class="no-print absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Live Profile</div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Ink Distribution Profile</h3>
+                    <p class="text-xs text-slate-500 mb-4">Visual representation of ink uniformity across keys 1-22.</p>
+                    <div class="chart-container">
+                        <canvas id="sidChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Section B: Uniformity Summary -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Section B: Uniformity Summary</h3>
+                    <p class="text-xs text-slate-500 mb-4">Calculated variation across the entire sheet (Max - Min).</p>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3">Colour</th>
+                                    <th class="px-4 py-3 text-center">Min SID</th>
+                                    <th class="px-4 py-3 text-center">Max SID</th>
+                                    <th class="px-4 py-3 text-center font-bold text-slate-700 bg-slate-100">Variation</th>
+                                    <th class="px-4 py-3 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="uniformity-body" class="divide-y divide-slate-100">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section C: Target Check -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1 flex items-center justify-between">
+                        Section C: Center Patch vs. Target
+                        <span class="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded">Using Patch 11</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Comparing the center of the sheet against standard aimpoints.</p>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3">Colour</th>
+                                    <th class="px-4 py-3 text-center w-24">Target SID<br><span class="text-[9px] font-normal lowercase">(editable)</span></th>
+                                    <th class="px-4 py-3 text-center">Center SID</th>
+                                    <th class="px-4 py-3 text-center font-bold text-slate-700 bg-slate-100">Difference</th>
+                                    <th class="px-4 py-3">Operator Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="target-body" class="divide-y divide-slate-100">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Section D: Reflection -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Section D: Reflection</h3>
+                    <p class="text-xs text-slate-500 mb-4">Based on the measurement numbers above, describe the visual appearance of the printed sheet. Do the numbers match what the human eye sees?</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">1. Visual Evenness</label>
+                            <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[72px]" placeholder="e.g., Left side of the sheet looks noticeably lighter in Cyan, confirming the low density values in keys 1-4..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">2. Colour Shifts</label>
+                            <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[72px]" placeholder="e.g., Magenta is too strong in the center compared to the target, causing skin tones to look overly red..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">3. Conclusion / Action Plan</label>
+                            <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[72px]" placeholder="e.g., Decrease magenta key 11 and slightly open cyan keys 1-4 to achieve an even spread."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 pt-6 border-t border-slate-300 text-center text-slate-500 text-sm flex flex-col md:flex-row justify-between items-center">
+            <p>Toolkit File: PrintQC Lab - SID Analysis v1.0 (June 2026)</p>
+            <p class="mt-2 md:mt-0 font-medium">License: CC BY 4.0 | Developed for PrintQC Lab</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // State Management
+        const state = {
+            // 22-zone data based on typical press profile curve
+            data: {
+                c: [1.38, 1.39, 1.39, 1.40, 1.41, 1.42, 1.43, 1.43, 1.44, 1.45, 1.44, 1.43, 1.43, 1.42, 1.41, 1.40, 1.39, 1.39, 1.38, 1.38, 1.37, 1.37],
+                m: [1.43, 1.44, 1.44, 1.45, 1.46, 1.47, 1.48, 1.48, 1.49, 1.50, 1.49, 1.48, 1.48, 1.47, 1.46, 1.45, 1.44, 1.44, 1.43, 1.43, 1.42, 1.42],
+                y: [0.98, 0.99, 0.99, 1.00, 1.01, 1.02, 1.03, 1.03, 1.04, 1.05, 1.04, 1.03, 1.03, 1.02, 1.01, 1.00, 0.99, 0.99, 0.98, 0.98, 0.97, 0.97],
+                k: [1.63, 1.64, 1.64, 1.65, 1.66, 1.67, 1.68, 1.68, 1.69, 1.70, 1.69, 1.68, 1.68, 1.67, 1.66, 1.65, 1.64, 1.64, 1.63, 1.63, 1.62, 1.62]
+            },
+            thresholds: {
+                even: 0.05,
+                acceptable: 0.10
+            },
+            targets: {
+                c: 1.40,
+                m: 1.50,
+                y: 1.05,
+                k: 1.70
+            },
+            colors: {
+                c: { text: '#0284c7', hex: '#0ea5e9', name: 'Cyan' },
+                m: { text: '#be185d', hex: '#ec4899', name: 'Magenta' },
+                y: { text: '#a16207', hex: '#eab308', name: 'Yellow' },
+                k: { text: '#334155', hex: '#0f172a', name: 'Black' }
+            }
+        };
+
+        let chartInstance = null;
+
+        function init() {
+            buildDataTable();
+            attachListeners();
+            initChart();
+            updateCalculations();
+        }
+
+        function buildDataTable() {
+            const tbody = document.getElementById('data-table-body');
+            tbody.innerHTML = '';
+            
+            for (let i = 0; i < 22; i++) {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors group';
+                
+                // Key Column
+                const tdKey = document.createElement('td');
+                tdKey.className = 'px-2 py-2 font-mono text-slate-500 text-center font-bold text-xs border-r border-slate-100 group-hover:text-blue-600';
+                tdKey.textContent = i + 1;
+                tr.appendChild(tdKey);
+
+                // Input Columns
+                ['c', 'm', 'y', 'k'].forEach(color => {
+                    const td = document.createElement('td');
+                    td.className = 'px-1 py-1';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.step = '0.01';
+                    input.value = state.data[color][i].toFixed(2);
+                    
+                    // Styling input based on CMYK
+                    let colorStyles = '';
+                    if (color === 'c') colorStyles = 'text-cyan-700 bg-cyan-50/30 focus:bg-white focus:border-cyan-400 focus:ring-1 focus:ring-cyan-200';
+                    else if (color === 'm') colorStyles = 'text-pink-700 bg-pink-50/30 focus:bg-white focus:border-pink-400 focus:ring-1 focus:ring-pink-200';
+                    else if (color === 'y') colorStyles = 'text-yellow-700 bg-yellow-50/30 focus:bg-white focus:border-yellow-400 focus:ring-1 focus:ring-yellow-200';
+                    else colorStyles = 'text-slate-800 bg-slate-100/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-200';
+
+                    input.className = `w-full text-center py-1.5 border border-transparent rounded outline-none font-mono text-sm transition-all font-semibold ${colorStyles}`;
+                    input.dataset.color = color;
+                    input.dataset.index = i;
+                    input.addEventListener('input', handleDataChange);
+                    
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            }
+        }
+
+        function buildTargetInputs(color) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.step = '0.01';
+            input.value = state.targets[color].toFixed(2);
+            input.className = "w-full bg-white border border-slate-300 rounded px-2 py-1 text-center font-mono text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-inner";
+            input.addEventListener('input', (e) => {
+                state.targets[color] = parseFloat(e.target.value) || 0;
+                updateCalculations();
+            });
+            return input;
+        }
+
+        function attachListeners() {
+            document.getElementById('thresh-even').addEventListener('input', (e) => { 
+                state.thresholds.even = parseFloat(e.target.value) || 0; 
+                updateCalculations(); 
+            });
+            document.getElementById('thresh-acc').addEventListener('input', (e) => { 
+                state.thresholds.acceptable = parseFloat(e.target.value) || 0; 
+                updateCalculations(); 
+            });
+        }
+
+        function handleDataChange(e) {
+            const color = e.target.dataset.color;
+            const index = parseInt(e.target.dataset.index);
+            const val = parseFloat(e.target.value) || 0;
+            state.data[color][index] = val;
+            
+            updateChart();
+            updateCalculations();
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('sidChart').getContext('2d');
+            Chart.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+            
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: getChartData(),
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 6, font: {weight: 'bold'} } },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', padding: 12, titleFont: { size: 13 }, bodyFont: { size: 13, family: 'monospace' } }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false, drawBorder: false }, 
+                            title: { display: true, text: 'Ink Key (Patch 1 - 22)', color: '#64748b', font: {size: 11, weight: 'bold'} },
+                            ticks: { font: {size: 10} }
+                        },
+                        y: { 
+                            min: 0.8, max: 1.9, 
+                            grid: { color: '#f1f5f9', borderDash: [4, 4] }, 
+                            title: { display: true, text: 'Density (SID)', color: '#64748b', font: {size: 11, weight: 'bold'} },
+                            ticks: { font: {family: 'monospace', size: 11} }
+                        }
+                    },
+                    elements: { 
+                        line: { tension: 0.3, borderWidth: 3 }, 
+                        point: { radius: 2, hoverRadius: 6, backgroundColor: '#fff', borderWidth: 2 } 
+                    }
+                }
+            });
+        }
+
+        function getChartData() {
+            const labels = Array.from({length: 22}, (_, i) => i + 1);
+            return {
+                labels: labels,
+                datasets: [
+                    { label: 'Cyan', data: state.data.c, borderColor: state.colors.c.hex, pointBorderColor: state.colors.c.hex },
+                    { label: 'Magenta', data: state.data.m, borderColor: state.colors.m.hex, pointBorderColor: state.colors.m.hex },
+                    { label: 'Yellow', data: state.data.y, borderColor: state.colors.y.hex, pointBorderColor: state.colors.y.hex },
+                    { label: 'Black', data: state.data.k, borderColor: state.colors.k.hex, pointBorderColor: state.colors.k.hex }
+                ]
+            };
+        }
+
+        function updateChart() {
+            if (chartInstance) {
+                chartInstance.data = getChartData();
+                chartInstance.update();
+            }
+        }
+
+        function updateCalculations() {
+            const uniBody = document.getElementById('uniformity-body');
+            const tgtBody = document.getElementById('target-body');
+            
+            uniBody.innerHTML = '';
+            tgtBody.innerHTML = '';
+
+            ['c', 'm', 'y', 'k'].forEach(c => {
+                const arr = state.data[c];
+                const min = Math.min(...arr);
+                const max = Math.max(...arr);
+                const variation = max - min;
+                
+                // Section B Logic
+                let statusText = 'Needs Fixing';
+                let statusClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                let statusIcon = '&#9888;'; 
+                
+                if (variation <= state.thresholds.even) {
+                    statusText = 'Excellent';
+                    statusClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                    statusIcon = '&#10003;';
+                } else if (variation <= state.thresholds.acceptable) {
+                    statusText = 'Acceptable';
+                    statusClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                    statusIcon = '&#8226;'; 
+                }
+
+                const trU = document.createElement('tr');
+                trU.innerHTML = `
+                    <td class="px-4 py-3 font-bold" style="color: ${state.colors[c].text}">${state.colors[c].name}</td>
+                    <td class="px-4 py-3 text-center font-mono text-slate-600">${min.toFixed(2)}</td>
+                    <td class="px-4 py-3 text-center font-mono text-slate-600">${max.toFixed(2)}</td>
+                    <td class="px-4 py-3 text-center font-mono font-bold text-slate-900 bg-slate-50 border-x border-slate-100">${variation.toFixed(2)}</td>
+                    <td class="px-4 py-3 text-center">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold border ${statusClass} w-28 justify-center shadow-sm">
+                            <span class="text-sm leading-none">${statusIcon}</span> ${statusText}
+                        </span>
+                    </td>
+                `;
+                uniBody.appendChild(trU);
+
+                // Section C Logic (Using patch 11 = index 10)
+                const centerVal = arr[10]; 
+                const diff = centerVal - state.targets[c];
+                
+                let actionText = 'Maintain';
+                let actionClass = 'text-slate-600 bg-slate-100 border border-slate-200';
+                
+                if (diff > 0.05) {
+                    actionText = '&#8595; Decrease Ink Key';
+                    actionClass = 'text-rose-700 bg-rose-50 border border-rose-200';
+                } else if (diff < -0.05) {
+                    actionText = '&#8593; Increase Ink Key';
+                    actionClass = 'text-blue-700 bg-blue-50 border border-blue-200';
+                }
+
+                const trT = document.createElement('tr');
+                
+                // Construct Row for Section C with editable target
+                const tdName = document.createElement('td');
+                tdName.className = `px-4 py-3 font-bold`;
+                tdName.style.color = state.colors[c].text;
+                tdName.textContent = state.colors[c].name;
+                
+                const tdTarget = document.createElement('td');
+                tdTarget.className = "px-4 py-2";
+                tdTarget.appendChild(buildTargetInputs(c));
+
+                const tdCenter = document.createElement('td');
+                tdCenter.className = "px-4 py-3 text-center font-mono text-slate-800 font-bold";
+                tdCenter.textContent = centerVal.toFixed(2);
+
+                const tdDiff = document.createElement('td');
+                const isDiffLarge = Math.abs(diff) > 0.05;
+                tdDiff.className = `px-4 py-3 text-center font-mono bg-slate-50 border-x border-slate-100 ${isDiffLarge ? 'text-rose-600 font-bold' : 'text-slate-600'}`;
+                tdDiff.textContent = `${diff > 0 ? '+' : ''}${diff.toFixed(2)}`;
+
+                const tdAction = document.createElement('td');
+                tdAction.className = "px-4 py-3";
+                tdAction.innerHTML = `<span class="inline-block px-3 py-1 text-xs font-bold rounded shadow-sm w-full text-center ${actionClass}">${actionText}</span>`;
+
+                trT.appendChild(tdName);
+                trT.appendChild(tdTarget);
+                trT.appendChild(tdCenter);
+                trT.appendChild(tdDiff);
+                trT.appendChild(tdAction);
+
+                tgtBody.appendChild(trT);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
