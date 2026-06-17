@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintQC Lab: Platemaking Dot Uniformity</title>
+    
+    <!-- Application Structure Plan: This dashboard replicates the Platemaking Dot Uniformity Excel template.
+         - Left Pane: Prepress metadata, adjustable tolerance thresholds (from the 'How to interpret' sheet), and the 6x5 zone measurement grid.
+         - Right Pane: Top-level Global metrics (Mean, Sigma, U-Index), a visual deviation chart, and the detailed Zone Summary table.
+         - Bottom Pane: The 4-part guided reflection linking the statistical anomalies to prepress physical issues (exposure, developer, contamination). -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        
+        .textarea-print-style {
+            background-image: repeating-linear-gradient(transparent, transparent 23px, #e2e8f0 23px, #e2e8f0 24px);
+            line-height: 24px; padding-top: 0;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        .chart-container { position: relative; width: 100%; height: 250px; }
+
+        @media print {
+            body { background-color: #ffffff !important; }
+            .max-w-\[1400px\] { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .shadow-sm, .shadow-inner { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+            .border-slate-200, .border-slate-300 { border-color: #cbd5e1 !important; }
+            .bg-slate-50, .bg-slate-100 { background-color: #ffffff !important; }
+            
+            .lg\:grid-cols-12 { display: block !important; }
+            .lg\:col-span-5, .lg\:col-span-7, .lg\:col-span-12 { width: 100% !important; margin-bottom: 1.5rem !important; }
+            
+            .print-avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; }
+            input[type="number"] { background-color: transparent !important; border: 1px solid #cbd5e1 !important; color: #000 !important; }
+            .no-print { display: none !important; }
+            .print-color-adjust { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
+
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header -->
+        <header class="mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative print-avoid-break">
+            <button onclick="window.print()" class="no-print absolute top-6 right-6 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold py-2 px-4 rounded shadow transition-colors flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                Export PDF
+            </button>
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div class="max-w-2xl pr-32">
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2"><span class="text-blue-600 font-black tracking-tighter">PrintQC</span> Lab</h1>
+                    <h2 class="text-xl font-semibold text-slate-700 mb-3">Toolkit File 4: Platemaking Dot Uniformity Analysis</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <strong>Prepress Quality Control:</strong> Evaluate the stability of the plate exposure and development process. Divide the plate into 6 zones and measure 5 spots per zone (target 50% patch). The system automatically calculates Global Mean, Zone &sigma; (standard deviation), and a Uniformity Index to detect "hot/cold" processing areas.
+                    </p>
+                </div>
+                
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 w-full md:w-auto shadow-inner min-w-[400px]">
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Student Name/ID</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">STU-PRE-01</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Date</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">27 July 2026</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Platesetter Name</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Heidelberg Suprasetter</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Plate Type & Brand</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Positive Thermal (Kodak)</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Processor / Chemical</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Glunz & Jensen / Dev 85</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Target TV %</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">50.0%</div></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            
+            <!-- Left Column: Inputs & Tolerances -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Guidelines / Tolerances -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 flex justify-between">
+                        Evaluation Rules (Tolerances)
+                        <span class="text-[10px] text-slate-400 font-normal normal-case mt-1">(Editable)</span>
+                    </h3>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                        <div class="bg-slate-50 p-2 rounded border border-slate-100">
+                            <label class="block text-slate-600 mb-1 font-semibold text-[11px] uppercase">Zone Average Deviation Limit (&Delta;)</label>
+                            <div class="flex items-center"><span class="text-slate-400 mr-1">&plusmn;</span><input type="number" id="thresh-delta" value="0.5" step="0.1" class="w-full bg-white border border-slate-300 text-slate-900 rounded px-2 py-1 outline-none focus:ring-1 focus:ring-blue-500 font-mono font-bold shadow-inner"></div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border border-slate-100">
+                            <label class="block text-slate-600 mb-1 font-semibold text-[11px] uppercase">Zone Spread/Noise Limit (&sigma;)</label>
+                            <div class="flex items-center"><span class="text-slate-400 mr-1">&le;</span><input type="number" id="thresh-sigma" value="0.3" step="0.1" class="w-full bg-white border border-slate-300 text-slate-900 rounded px-2 py-1 outline-none focus:ring-1 focus:ring-blue-500 font-mono font-bold shadow-inner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6x5 Data Entry Grid -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-end mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-1">Section A: Zone Measurements</h3>
+                            <p class="text-xs text-slate-500">Enter measured TV (%) for 5 spots across 6 zones.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr class="text-xs uppercase text-slate-500 bg-slate-50 border-y border-slate-200">
+                                    <th class="px-2 py-2 text-center w-16 border-r border-slate-200">Zone</th>
+                                    <th class="px-2 py-2 text-center">Spot 1</th>
+                                    <th class="px-2 py-2 text-center">Spot 2</th>
+                                    <th class="px-2 py-2 text-center">Spot 3</th>
+                                    <th class="px-2 py-2 text-center">Spot 4</th>
+                                    <th class="px-2 py-2 text-center">Spot 5</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-entry-body" class="divide-y divide-slate-100">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Visualizer & Summary -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                
+                <!-- Global Stats Banner -->
+                <div class="grid grid-cols-3 gap-4 print-avoid-break">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-center items-center relative overflow-hidden">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Global Mean TV</div>
+                        <div class="text-3xl font-black text-slate-800 font-mono" id="val-global-mean">--</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-center items-center relative overflow-hidden">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Global &sigma; (Spread)</div>
+                        <div class="text-3xl font-black text-slate-800 font-mono" id="val-global-sigma">--</div>
+                    </div>
+                    <div id="u-index-card" class="bg-emerald-500 p-4 rounded-xl shadow-sm border border-emerald-600 flex flex-col justify-center items-center text-white relative overflow-hidden print-color-adjust transition-colors">
+                        <div class="text-[10px] uppercase font-bold text-white/80 tracking-wider mb-1">Uniformity Index (U)</div>
+                        <div class="text-3xl font-black font-mono flex items-baseline gap-1"><span id="val-u-index">--</span><span class="text-lg">%</span></div>
+                    </div>
+                </div>
+
+                <!-- Chart Visualizer -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative print-avoid-break">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Section B: Zone Deviation Profile</h3>
+                    <p class="text-xs text-slate-500 mb-4">Visualizing how much each Zone Mean deviates (&Delta;) from the overall Global Mean (Center Zero Line).</p>
+                    <div class="chart-container">
+                        <canvas id="uniformityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Zone Summary Table -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Section C: Zone Summary & Status</h3>
+                    <p class="text-xs text-slate-500 mb-4">Detailed breakdown of internal zone stability (&sigma;) and global variation (&Delta;).</p>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200 custom-scrollbar">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-[11px] text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-3 py-3 text-center">Zone</th>
+                                    <th class="px-3 py-3 text-center">Zone Mean</th>
+                                    <th class="px-3 py-3 text-center bg-slate-100">&Delta; From Global</th>
+                                    <th class="px-3 py-3 text-center">Zone &sigma;</th>
+                                    <th class="px-3 py-3 text-center w-36">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="zone-summary-body" class="divide-y divide-slate-100">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section D: Reflection -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break mb-8">
+            <h3 class="text-lg font-bold text-slate-800 mb-1">Section D: Platemaking Reflection</h3>
+            <p class="text-xs text-slate-500 mb-6">Interpret the statistics above based on prepress processing theory. How do these numbers translate to physical plate quality?</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">1. Overall Plate Quality (Average & Uniformity Score)</label>
+                    <p class="text-[10px] text-slate-400 mb-2 leading-tight">Compare Global Mean to your 50% target. Is the overall plate over/under exposed? Is the U-Index above 98%?</p>
+                    <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[80px]"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">2. Uneven Processing Areas (Zone Deviation &Delta;)</label>
+                    <p class="text-[10px] text-slate-400 mb-2 leading-tight">Look at '&Delta; from Global'. Are specific zones printing noticeably stronger (+ve) or weaker (-ve)? What could cause this mechanically?</p>
+                    <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[80px]"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">3. Local Spot/Noise Issues (Zone Spread &sigma;)</label>
+                    <p class="text-[10px] text-slate-400 mb-2 leading-tight">A high Zone &sigma; (>0.7) means noise/irregularity within a small area. Did any zone fail this? Could it be dirt, scratches, or uneven chemistry?</p>
+                    <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[80px]"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">4. Conclusion & Action Plan</label>
+                    <p class="text-[10px] text-slate-400 mb-2 leading-tight">Based on the Status column, is the plate OK to print? If "Check process ⚠", what must the technician inspect (e.g., developer brushes, laser)?</p>
+                    <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[80px]"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t border-slate-300 text-center text-slate-500 text-sm flex flex-col md:flex-row justify-between items-center">
+            <p>Toolkit File 4: PrintQC Lab - Platemaking Dot Uniformity v1.0</p>
+            <p class="mt-2 md:mt-0 font-medium">License: CC BY 4.0 | Developed for PrintQC Lab</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // === STATE MANAGEMENT ===
+        const state = {
+            // Initial data based on the provided CSV example
+            data: [
+                [51.0, 50.9, 51.3, 51.0, 51.1], // Z1
+                [51.2, 51.1, 51.7, 51.4, 51.1], // Z2
+                [50.8, 51.0, 51.2, 51.3, 51.1], // Z3
+                [50.9, 51.0, 51.4, 51.0, 51.1], // Z4
+                [50.9, 50.8, 51.3, 51.1, 51.1], // Z5
+                [51.0, 50.9, 51.4, 51.1, 51.3]  // Z6
+            ],
+            thresholds: {
+                deltaWarning: 0.5, // +/- limit
+                deltaCritical: 1.0,
+                sigmaWarning: 0.3,
+                sigmaCritical: 0.7
+            }
+        };
+
+        let chartInstance = null;
+
+        // === MATH UTILS ===
+        function calcMean(arr) {
+            if (arr.length === 0) return 0;
+            return arr.reduce((a, b) => a + b, 0) / arr.length;
+        }
+
+        function calcSigma(arr, mean) {
+            if (arr.length <= 1) return 0;
+            const variance = arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (arr.length - 1);
+            return Math.sqrt(variance);
+        }
+
+        // === INITIALIZATION ===
+        function init() {
+            buildDataEntryGrid();
+            
+            // Threshold Listeners
+            document.getElementById('thresh-delta').addEventListener('input', (e) => { 
+                state.thresholds.deltaWarning = parseFloat(e.target.value) || 0; 
+                state.thresholds.deltaCritical = state.thresholds.deltaWarning * 2; // Simple multiplier for critical
+                calculateAndRender(); 
+            });
+            document.getElementById('thresh-sigma').addEventListener('input', (e) => { 
+                state.thresholds.sigmaWarning = parseFloat(e.target.value) || 0; 
+                state.thresholds.sigmaCritical = state.thresholds.sigmaWarning * 2.33; // Approx 0.7 based on 0.3
+                calculateAndRender(); 
+            });
+
+            initChart();
+            calculateAndRender();
+        }
+
+        function buildDataEntryGrid() {
+            const tbody = document.getElementById('data-entry-body');
+            tbody.innerHTML = '';
+            
+            for (let z = 0; z < 6; z++) {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50/50 transition-colors group';
+                
+                // Zone Label
+                const tdZ = document.createElement('td');
+                tdZ.className = 'px-2 py-1.5 font-bold text-slate-600 text-center border-r border-slate-200 bg-slate-50 group-hover:bg-blue-100/50 transition-colors';
+                tdZ.textContent = `Z${z + 1}`;
+                tr.appendChild(tdZ);
+
+                // 5 Spots
+                for (let s = 0; s < 5; s++) {
+                    const td = document.createElement('td');
+                    td.className = 'px-1 py-1';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.step = '0.1';
+                    input.value = state.data[z][s].toFixed(1);
+                    input.className = 'w-full text-center py-1.5 bg-white border border-slate-200 rounded outline-none font-mono text-sm text-slate-800 font-semibold focus:border-blue-400 focus:ring-1 focus:ring-blue-200 shadow-sm hover:border-blue-300';
+                    input.dataset.z = z;
+                    input.dataset.s = s;
+                    
+                    input.addEventListener('input', (e) => {
+                        state.data[z][s] = parseFloat(e.target.value) || 0;
+                        calculateAndRender();
+                    });
+                    
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+        }
+
+        function calculateAndRender() {
+            // 1. Flatten data to get global metrics
+            const flatData = state.data.flat();
+            const globalMean = calcMean(flatData);
+            const globalSigma = calcSigma(flatData, globalMean);
+            
+            // Uniformity Index calculation based on theory (100 - relative standard deviation)
+            // Capped at 100 max.
+            let uIndex = 100 * (1 - (globalSigma / globalMean));
+            if (uIndex > 100) uIndex = 100;
+            if (uIndex < 0) uIndex = 0;
+
+            // 2. Update Global UI
+            document.getElementById('val-global-mean').textContent = globalMean.toFixed(2);
+            document.getElementById('val-global-sigma').textContent = globalSigma.toFixed(3);
+            document.getElementById('val-u-index').textContent = uIndex.toFixed(1);
+
+            // Update U-Index color based on CSV rules (>98 = Exc, 95-98 = Acc, <95 = Check)
+            const uCard = document.getElementById('u-index-card');
+            uCard.className = 'p-4 rounded-xl shadow-sm border flex flex-col justify-center items-center text-white relative overflow-hidden print-color-adjust transition-colors';
+            if (uIndex >= 98.0) {
+                uCard.classList.add('bg-emerald-500', 'border-emerald-600');
+            } else if (uIndex >= 95.0) {
+                uCard.classList.add('bg-amber-500', 'border-amber-600');
+            } else {
+                uCard.classList.add('bg-rose-500', 'border-rose-600');
+            }
+
+            // 3. Calculate Zone Metrics
+            const zoneMetrics = [];
+            const chartData = [];
+            const chartBgColors = [];
+
+            const tbody = document.getElementById('zone-summary-body');
+            tbody.innerHTML = '';
+
+            for (let z = 0; z < 6; z++) {
+                const zoneArr = state.data[z];
+                const zoneMean = calcMean(zoneArr);
+                const zoneSigma = calcSigma(zoneArr, zoneMean);
+                const deltaGlobal = zoneMean - globalMean;
+                
+                chartData.push(deltaGlobal);
+
+                // Status Logic based on 'How to interpret'
+                const absDelta = Math.abs(deltaGlobal);
+                let statusText = 'OK ✓';
+                let statusClass = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                
+                if (absDelta > state.thresholds.deltaCritical || zoneSigma > state.thresholds.sigmaCritical) {
+                    statusText = 'Check Process ⚠';
+                    statusClass = 'bg-rose-100 text-rose-800 border-rose-200 font-bold';
+                    chartBgColors.push('#f43f5e'); // Rose
+                } else if (absDelta > state.thresholds.deltaWarning || zoneSigma > state.thresholds.sigmaWarning) {
+                    statusText = 'Slight Deviation';
+                    statusClass = 'bg-amber-100 text-amber-800 border-amber-200';
+                    chartBgColors.push('#f59e0b'); // Amber
+                } else {
+                    chartBgColors.push('#10b981'); // Emerald
+                }
+
+                // Append to Table
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-3 py-2 text-center font-bold text-slate-700">Z${z + 1}</td>
+                    <td class="px-3 py-2 text-center font-mono text-slate-600">${zoneMean.toFixed(2)}</td>
+                    <td class="px-3 py-2 text-center font-mono bg-slate-50 border-x border-slate-100 ${absDelta > state.thresholds.deltaWarning ? 'font-bold text-slate-900' : 'text-slate-500'}">
+                        ${deltaGlobal > 0 ? '+' : ''}${deltaGlobal.toFixed(2)}
+                    </td>
+                    <td class="px-3 py-2 text-center font-mono ${zoneSigma > state.thresholds.sigmaWarning ? 'font-bold text-slate-900' : 'text-slate-500'}">
+                        ${zoneSigma.toFixed(3)}
+                    </td>
+                    <td class="px-3 py-2 text-center">
+                        <span class="inline-block w-full py-1 rounded text-xs border ${statusClass} print-color-adjust">
+                            ${statusText}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            // 4. Update Chart
+            if (chartInstance) {
+                chartInstance.data.datasets[0].data = chartData;
+                chartInstance.data.datasets[0].backgroundColor = chartBgColors;
+                chartInstance.update();
+            }
+        }
+
+        // === CHART LOGIC ===
+        function initChart() {
+            const ctx = document.getElementById('uniformityChart').getContext('2d');
+            Chart.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, sans-serif';
+            
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Zone 1', 'Zone 2', 'Zone 3', 'Zone 4', 'Zone 5', 'Zone 6'],
+                    datasets: [{
+                        label: 'Δ from Global Mean',
+                        data: [], // Populated by calculateAndRender
+                        backgroundColor: [],
+                        borderRadius: 4,
+                        borderWidth: 1,
+                        borderColor: 'rgba(0,0,0,0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { 
+                            callbacks: { 
+                                label: function(context) {
+                                    let val = context.raw;
+                                    return `Δ: ${val > 0 ? '+' : ''}${val.toFixed(3)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold', color: '#64748b' } }
+                        },
+                        y: { 
+                            grid: { color: '#e2e8f0', borderDash: [4, 4] },
+                            title: { display: true, text: 'Deviation (Percentage Points)', color: '#64748b', font: { size: 10 } },
+                            // Force zero line to be visible
+                            border: { display: true, color: '#334155', width: 2 }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintQC Lab: Scenario Simulation Generator</title>
+    
+    <!-- Application Structure Plan:
+         This is the virtual pressroom engine. 
+         - Left Pane (Controls): Phase selection, Scenario selection, Seed input. 
+         - Right Pane (Outputs): Generated SID (22 zones), TVI (22 zones), and CIELAB (Center Patch) data.
+         - Instructor Mode: A toggle that reveals the 'Cheat Sheet' (Expected diagnosis, press action, severity).
+         - Logic Engine: Rule-based. SID, TVI, and LAB move together based on physical printing principles. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .instructor-hidden { display: none !important; }
+        .tab-active { background-color: #3b82f6; color: white; border-color: #3b82f6; }
+        .tab-inactive { background-color: #f8fafc; color: #64748b; border-color: #e2e8f0; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
+
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header -->
+        <header class="mb-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div class="max-w-2xl">
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2"><span class="text-blue-600 font-black tracking-tighter">PrintQC</span> Lab <span class="text-slate-300 font-light mx-2">|</span> Simulation Generator</h1>
+                <p class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <strong>Virtual Pressroom Engine:</strong> Select a press operation phase and scenario. This engine generates realistic, physically-linked SID, TVI, and CIELAB data. Copy the generated data into Toolkits 1, 2, and 3 to diagnose the press condition.
+                </p>
+            </div>
+            
+            <!-- Instructor Toggle -->
+            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 text-sm w-full md:w-64 shadow-inner flex flex-col items-center justify-center">
+                <span class="font-bold text-slate-300 text-[10px] uppercase tracking-wider mb-2">Dashboard Mode</span>
+                <button id="mode-toggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-slate-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800" onclick="toggleInstructorMode()">
+                    <span id="mode-knob" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1"></span>
+                </button>
+                <span id="mode-label" class="mt-2 text-xs font-bold text-white">Student Mode</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            
+            <!-- Left Column: Generator Setup -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100">1. Scenario Setup</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold text-xs uppercase">Press Operation Phase</label>
+                            <select id="phase-select" class="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 font-semibold shadow-sm" onchange="updateScenarioOptions()">
+                                <option value="makeready">Makeready Adjustment</option>
+                                <option value="oksheet">OK Sheet Decision</option>
+                                <option value="production">Production Monitoring</option>
+                                <option value="troubleshooting">Troubleshooting Case</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold text-xs uppercase">Scenario Type</label>
+                            <select id="scenario-select" class="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 font-semibold shadow-sm">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-slate-600 mb-1 font-semibold text-xs uppercase flex justify-between">
+                                <span>Assignment Code / Matric No.</span>
+                                <span class="text-slate-400 font-normal lowercase">(e.g. 2026123456 - Generates your unique data)</span>
+                            </label>
+                            <input type="text" id="seed-input" value="2026123456" class="w-full bg-blue-50 border border-blue-200 text-blue-900 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 font-mono font-bold shadow-inner uppercase">
+                        </div>
+
+                        <button onclick="generateSimulation()" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-colors flex justify-center items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>
+                            Generate Simulation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Instructor Cheat Sheet (Hidden in Student Mode) -->
+                <div id="instructor-panel" class="bg-amber-50 p-6 rounded-xl shadow-sm border border-amber-300 instructor-hidden">
+                    <h3 class="text-sm font-bold text-amber-900 uppercase tracking-wider mb-4 pb-2 border-b border-amber-200 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+                        Instructor Answer Key (Hidden from students)
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="block text-[10px] font-bold text-amber-700 uppercase">Root Cause (Simulated)</span>
+                            <div id="key-fault" class="font-semibold text-amber-900">--</div>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-amber-700 uppercase">Expected Student Observation</span>
+                            <div id="key-diag" class="font-semibold text-amber-900">--</div>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-amber-700 uppercase">Recommended Action</span>
+                            <div id="key-action" class="font-semibold text-amber-900 bg-white px-2 py-1 border border-amber-200 rounded mt-1">--</div>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-amber-700 uppercase">Grading Severity</span>
+                            <div id="key-severity" class="font-bold text-amber-900 uppercase">--</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Generated Outputs -->
+            <div class="lg:col-span-8 flex flex-col gap-6">
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex-grow">
+                    <div class="flex justify-between items-end mb-4 border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-1">2. Generated Press Data</h3>
+                            <p class="text-xs text-slate-500">Copy these values into your Toolkits. Values are physically linked based on the scenario.</p>
+                        </div>
+                        <button onclick="exportToCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 px-3 rounded text-xs border border-slate-300 transition-colors shadow-sm">
+                            Export to CSV
+                        </button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex gap-2 mb-4">
+                        <button onclick="switchTab('sid')" id="tab-sid" class="tab-active px-4 py-2 rounded-t-lg font-bold text-sm border-x border-t transition-colors">SID (22 Zones)</button>
+                        <button onclick="switchTab('tvi')" id="tab-tvi" class="tab-inactive px-4 py-2 rounded-t-lg font-bold text-sm border-x border-t transition-colors">TVI (22 Zones)</button>
+                        <button onclick="switchTab('lab')" id="tab-lab" class="tab-inactive px-4 py-2 rounded-t-lg font-bold text-sm border-x border-t transition-colors">CIELAB (Center Patch)</button>
+                    </div>
+
+                    <!-- Output Tables -->
+                    <div class="overflow-x-auto custom-scrollbar border border-slate-200 rounded-b-lg rounded-tr-lg">
+                        
+                        <!-- SID Table -->
+                        <table id="table-sid" class="w-full text-sm text-center border-collapse">
+                            <thead class="text-xs uppercase text-slate-500 bg-slate-50 border-b border-slate-200">
+                                <tr><th class="px-2 py-2 border-r border-slate-200 w-16">Key</th><th class="px-2 py-2 text-cyan-700">Cyan</th><th class="px-2 py-2 text-pink-700">Mag</th><th class="px-2 py-2 text-yellow-700">Yel</th><th class="px-2 py-2 text-slate-800">Blk</th></tr>
+                            </thead>
+                            <tbody id="body-sid" class="divide-y divide-slate-100 font-mono">
+                                <tr><td colspan="5" class="py-12 text-slate-400 italic">Click "Generate Simulation" to populate data.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <!-- TVI Table -->
+                        <table id="table-tvi" class="w-full text-sm text-center border-collapse hidden">
+                            <thead class="text-xs uppercase text-slate-500 bg-slate-50 border-b border-slate-200">
+                                <tr><th class="px-2 py-2 border-r border-slate-200 w-16">Key</th><th class="px-2 py-2 text-cyan-700">Cyan %</th><th class="px-2 py-2 text-pink-700">Mag %</th><th class="px-2 py-2 text-yellow-700">Yel %</th><th class="px-2 py-2 text-slate-800">Blk %</th></tr>
+                            </thead>
+                            <tbody id="body-tvi" class="divide-y divide-slate-100 font-mono">
+                            </tbody>
+                        </table>
+
+                        <!-- LAB Table -->
+                        <table id="table-lab" class="w-full text-sm text-center border-collapse hidden">
+                            <thead class="text-xs uppercase text-slate-500 bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-3 py-3 text-left w-32 border-r border-slate-200">Colour<br><span class="text-[9px] font-normal lowercase tracking-normal">(Measured at Patch 11)</span></th>
+                                    <th class="px-3 py-3 w-24">L*</th>
+                                    <th class="px-3 py-3 w-24">a*</th>
+                                    <th class="px-3 py-3 w-24">b*</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-lab" class="divide-y divide-slate-100 font-mono">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Password Modal -->
+        <div id="password-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center print-avoid-break no-print">
+            <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 w-96 max-w-[90%] transform transition-all">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Instructor Access</h3>
+                <p class="text-sm text-slate-600 mb-4">Please enter the instructor password to view the answer key.</p>
+                <input type="password" id="instructor-pwd" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 mb-4" placeholder="Enter password" onkeyup="if(event.key === 'Enter') verifyPassword()">
+                <div id="pwd-error" class="hidden text-rose-600 text-xs font-bold mb-4 bg-rose-50 p-2 rounded border border-rose-200">Incorrect password. Please try again.</div>
+                <div class="flex justify-end gap-2">
+                    <button onclick="closePasswordModal()" class="px-4 py-2 rounded text-slate-600 hover:bg-slate-100 text-sm font-bold transition-colors">Cancel</button>
+                    <button onclick="verifyPassword()" class="px-4 py-2 rounded bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold transition-colors shadow-sm">Unlock</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 pt-6 border-t border-slate-300 flex flex-col gap-4 pb-8 print-avoid-break">
+            <div class="bg-rose-50 text-rose-700 px-4 py-2 rounded-lg border border-rose-200 text-center text-xs font-bold shadow-sm max-w-3xl mx-auto">
+                &#9888; Simulated educational measurement data. Not valid for customer approval, ISO certification, or production records.
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center w-full text-slate-500 text-sm">
+                <p class="font-bold text-slate-600">Toolkit File 5: PrintQC Lab - Simulation Generator v1.0</p>
+                <div class="mt-2 md:mt-0 text-center md:text-right">
+                    <p class="font-medium">License: CC BY 4.0 | Developed for PrintQC Lab</p>
+                    <p class="text-xs mt-1 text-slate-400 font-semibold">Name: Muhammad Yusuf, Printech, FSSR, UiTM</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // === PRNG (Pseudo-Random Number Generator) based on Seed ===
+        // Mulberry32 algorithm for consistent random generation from a string seed
+        function cyrb128(str) {
+            let h1 = 1779033703, h2 = 3144134277, h3 = 1013904242, h4 = 2773480762;
+            for (let i = 0, k; i < str.length; i++) {
+                k = str.charCodeAt(i);
+                h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+                h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+                h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+                h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+            }
+            h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+            h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+            h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+            h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+            return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+        }
+
+        function mulberry32(a) {
+            return function() {
+              var t = a += 0x6D2B79F5;
+              t = Math.imul(t ^ t >>> 15, t | 1);
+              t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+              return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            }
+        }
+
+        let randomFunc = Math.random; // Default
+
+        // Helper to get random number in range
+        function randomInRange(min, max) {
+            return randomFunc() * (max - min) + min;
+        }
+
+        // === SCENARIO DEFINITIONS (The Physics Engine) ===
+        const scenarios = {
+            makeready: [
+                {
+                    id: "mr_mag_right", name: "Magenta Heavy on Operator Side",
+                    fault: "Magenta ink keys 15-22 opened too far during initial makeready.",
+                    diag: "SID shows major variance in Magenta on the right side. TVI mimics this spike. CIELAB fails specifically in Magenta (too dark/red).",
+                    action: "Decrease Magenta ink keys 15-22.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=14; i<22; i++) {
+                            data.sid.m[i] += randomInRange(0.15, 0.25);
+                            data.tvi.m[i] += randomInRange(4.0, 6.0);
+                        }
+                        return data;
+                    }
+                },
+                {
+                    id: "mr_cyan_low", name: "Global Cyan Starvation",
+                    fault: "Cyan overall sweep/duct roller setting is far too low.",
+                    diag: "SID Cyan is universally below target. TVI is low. CIELAB Cyan patch fails (too light, lacks saturation).",
+                    action: "Increase Cyan master duct sweep.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.c[i] -= randomInRange(0.20, 0.25);
+                            data.tvi.c[i] -= randomInRange(3.0, 5.0);
+                        }
+                        data.lab.c.l += randomInRange(3.0, 5.0);
+                        data.lab.c.a += randomInRange(2.0, 4.0);
+                        data.lab.c.b += randomInRange(3.0, 5.0);
+                        return data;
+                    }
+                },
+                {
+                    id: "mr_yel_center_low", name: "Yellow Weak in Center",
+                    fault: "Yellow ink keys 8-15 are pinched too tight during makeready profile setup.",
+                    diag: "SID Yellow dips significantly in the center. CIELAB Yellow fails (Center patch 11 is too light/weak).",
+                    action: "Open Yellow ink keys 8-15 to build center profile.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=7; i<15; i++) {
+                            data.sid.y[i] -= randomInRange(0.15, 0.20);
+                            data.tvi.y[i] -= randomInRange(3.0, 4.0);
+                        }
+                        data.lab.y.l += randomInRange(1.5, 2.5); // Lighter
+                        data.lab.y.b -= randomInRange(2.0, 4.0); // Less yellow
+                        return data;
+                    }
+                },
+                {
+                    id: "mr_blk_left_high", name: "Black Heavy on Drive Side",
+                    fault: "Black ink keys 1-7 are flooded with ink.",
+                    diag: "SID Black spikes sharply on the left side (keys 1-7). TVI is very high in those zones.",
+                    action: "Drastically reduce Black ink keys 1-7.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<7; i++) {
+                            data.sid.k[i] += randomInRange(0.20, 0.30);
+                            data.tvi.k[i] += randomInRange(5.0, 7.0);
+                        }
+                        return data;
+                    }
+                }
+            ],
+            oksheet: [
+                {
+                    id: "ok_perfect", name: "Near Perfect (Within Tolerance)",
+                    fault: "None. Press is dialed in perfectly.",
+                    diag: "All SID profiles are uniform (variation < 0.05). All CIELAB Delta E00 < 2.0.",
+                    action: "Approve OK Sheet. Begin production run.", severity: "Pass",
+                    generate: () => { return getBaseData(); }
+                },
+                {
+                    id: "ok_yel_high", name: "Yellow Borderline High",
+                    fault: "Yellow ink film is slightly thick across the sheet, pushing Delta E to the edge.",
+                    diag: "SID Yellow is uniform but hovering around 1.12 (target 1.05). LAB Yellow Delta E is ~4.5 (Passes, but borderline).",
+                    action: "Slightly reduce Yellow sweep before starting run to provide a safety buffer.", severity: "Borderline",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.y[i] += randomInRange(0.05, 0.08);
+                            data.tvi.y[i] += randomInRange(1.0, 2.0);
+                        }
+                        data.lab.y.l -= randomInRange(0.5, 1.0);
+                        data.lab.y.b += randomInRange(1.5, 2.5);
+                        return data;
+                    }
+                },
+                {
+                    id: "ok_mag_low", name: "Magenta Borderline Low",
+                    fault: "Magenta ink film is slightly thin globally.",
+                    diag: "SID Magenta is uniform but consistently ~1.42 (target 1.50). CIELAB is borderline too light.",
+                    action: "Increase Magenta sweep slightly by 1-2%.", severity: "Borderline",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.m[i] -= randomInRange(0.06, 0.09);
+                            data.tvi.m[i] -= randomInRange(1.0, 2.0);
+                        }
+                        data.lab.m.l += randomInRange(0.8, 1.5); // Lighter
+                        data.lab.m.a -= randomInRange(1.0, 2.0); // Less red
+                        return data;
+                    }
+                },
+                {
+                    id: "ok_cyan_unbal", name: "Cyan Slight Asymmetry",
+                    fault: "Minor ink key imbalance (left side slightly higher than right side), but within tolerance.",
+                    diag: "SID Cyan slopes slightly downward from left to right, but max variation is < 0.10. CIELAB passes.",
+                    action: "Approve OK Sheet. Monitor Cyan left-to-right balance during the run.", severity: "Pass",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<11; i++) data.sid.c[i] += randomInRange(0.02, 0.04);
+                        for(let i=11; i<22; i++) data.sid.c[i] -= randomInRange(0.02, 0.04);
+                        return data;
+                    }
+                }
+            ],
+            production: [
+                {
+                    id: "prod_drift_center", name: "Yellow Blanket Wear (Center)",
+                    fault: "Mechanical issue: Blanket in the center is wearing out, transferring less yellow ink.",
+                    diag: "SID Yellow dips in keys 9-13. TVI Yellow also drops in center. CIELAB (measured at center Patch 11) fails.",
+                    action: "Check/pack/replace blanket at the next stop. Temporarily open Yellow keys 9-13.", severity: "Borderline",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=8; i<13; i++) {
+                            data.sid.y[i] -= randomInRange(0.12, 0.18);
+                            data.tvi.y[i] -= randomInRange(2.0, 4.0);
+                        }
+                        data.lab.y.l += randomInRange(2.0, 3.0);
+                        data.lab.y.b -= randomInRange(3.0, 5.0);
+                        return data;
+                    }
+                },
+                {
+                    id: "prod_water_high", name: "Over-emulsification (Water too high)",
+                    fault: "Dampening solution is running too high, washing out Cyan and Magenta ink.",
+                    diag: "SID drops slightly for C/M. TVI drops massively (ink cannot spread). CIELAB shows washed-out/lighter colors.",
+                    action: "Reduce dampening speed on Cyan and Magenta units.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        ['c', 'm'].forEach(col => {
+                            for(let i=0; i<22; i++) {
+                                data.sid[col][i] -= randomInRange(0.08, 0.12);
+                                data.tvi[col][i] -= randomInRange(3.0, 5.0); // Big TVI drop from water
+                            }
+                            data.lab[col].l += randomInRange(1.5, 2.5); // Washed out
+                        });
+                        return data;
+                    }
+                },
+                {
+                    id: "prod_heat_viscosity", name: "Ink Starvation (Heat/Viscosity)",
+                    fault: "Press heated up during the run, changing Black ink viscosity and causing starvation.",
+                    diag: "Black SID universally drops below target across all zones. TVI drops slightly.",
+                    action: "Check ink roller temperature control / chiller. Increase Black sweep.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.k[i] -= randomInRange(0.10, 0.15);
+                            data.tvi.k[i] -= randomInRange(1.0, 2.5);
+                        }
+                        return data;
+                    }
+                },
+                {
+                    id: "prod_paper_dust", name: "Dot Bridging (Paper Dust Build-up)",
+                    fault: "Paper dust has accumulated on the Cyan blanket, causing dots to bridge (smear) together.",
+                    diag: "Cyan SID is perfectly normal. However, Cyan TVI spikes universally (+5%). CIELAB shows midtones getting darker.",
+                    action: "Stop press and wash blankets. Check paper quality/vacuum.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.c[i] += randomInRange(-0.01, 0.02); // Normal SID
+                            data.tvi.c[i] += randomInRange(4.0, 6.0);    // Spiked TVI
+                        }
+                        data.lab.c.l -= randomInRange(0.5, 1.5); // Slightly darker overall
+                        return data;
+                    }
+                }
+            ],
+            troubleshooting: [
+                {
+                    id: "tb_streak", name: "Mechanical Roller Streaking (Black)",
+                    fault: "Black dampening/ink roller bouncing on drive side (Keys 2-5).",
+                    diag: "SID Black is highly erratic/spiky on keys 2-5. Center patch 11 CIELAB is perfectly fine.",
+                    action: "Stop press. Check roller pressures and condition on unit 4 (Black).", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=1; i<5; i++) {
+                            let spike = randomInRange(-0.25, 0.35);
+                            data.sid.k[i] += spike;
+                            data.tvi.k[i] += (spike * 20); // Massive erratic TVI swing
+                        }
+                        return data;
+                    }
+                },
+                {
+                    id: "tb_bad_ink", name: "Formulation Error (Magenta Over-pigmented)",
+                    fault: "Ink batch is incorrect. Pigment hue is completely wrong.",
+                    diag: "Trick scenario: SID Magenta is perfectly uniform and hits target 1.50. TVI is perfect. But CIELAB fails massively (Hue shift).",
+                    action: "Mechanical adjustments will not fix this. Wash up unit, replace Magenta ink.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        // SID and TVI perfect. LAB ruined.
+                        data.lab.m.l += randomInRange(2.0, 4.0); 
+                        data.lab.m.a -= randomInRange(6.0, 9.0); // Much less red (wrong pigment)
+                        data.lab.m.b += randomInRange(4.0, 6.0); // Too orange/yellow
+                        return data;
+                    }
+                },
+                {
+                    id: "tb_roller_glazing", name: "Ink Roller Glazing (Cyan)",
+                    fault: "Cyan rollers are glazed (hard/shiny), preventing proper ink transfer regardless of key settings.",
+                    diag: "Cyan SID drops universally and refuses to rise. TVI drops. CIELAB fails (Too light).",
+                    action: "Stop press. Apply deglazer/calcium remover to Cyan ink rollers.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        for(let i=0; i<22; i++) {
+                            data.sid.c[i] -= randomInRange(0.25, 0.32);
+                            data.tvi.c[i] -= randomInRange(3.5, 5.0);
+                        }
+                        data.lab.c.l += randomInRange(4.0, 6.0); // Very light
+                        return data;
+                    }
+                },
+                {
+                    id: "tb_blanket_smash", name: "Blanket Smash (Right Side)",
+                    fault: "A folded sheet went through the press, smashing the Magenta and Yellow blankets on keys 18-22.",
+                    diag: "Magenta and Yellow SID/TVI drop drastically on the far right edge. Center patch (key 11) is completely unaffected.",
+                    action: "Stop press. Replace Magenta and Yellow blankets.", severity: "Fail",
+                    generate: () => {
+                        let data = getBaseData();
+                        ['m', 'y'].forEach(col => {
+                            for(let i=17; i<22; i++) {
+                                data.sid[col][i] -= randomInRange(0.35, 0.50); // Massive physical drop
+                                data.tvi[col][i] -= randomInRange(6.0, 9.0);
+                            }
+                        });
+                        return data;
+                    }
+                }
+            ]
+        };
+
+        // Standard Targets
+        const TGT = {
+            sid: { c: 1.40, m: 1.50, y: 1.05, k: 1.70 },
+            tvi: { c: 14.0, m: 14.0, y: 14.0, k: 17.0 },
+            lab: {
+                c: { l: 56.6, a: -37.0, b: -50.2 },
+                m: { l: 46.0, a: 72.1, b: -0.4 },
+                y: { l: 89.0, a: -5.0, b: 93.0 },
+                k: { l: 16.0, a: 0.0, b: 0.0 }
+            }
+        };
+
+        function getBaseData() {
+            // Generates a near-perfect sheet with tiny natural noise
+            let d = {
+                sid: { c:[], m:[], y:[], k:[] },
+                tvi: { c:[], m:[], y:[], k:[] },
+                lab: JSON.parse(JSON.stringify(TGT.lab))
+            };
+            
+            ['c', 'm', 'y', 'k'].forEach(color => {
+                for(let i=0; i<22; i++) {
+                    d.sid[color].push(TGT.sid[color] + randomInRange(-0.02, 0.02));
+                    d.tvi[color].push(TGT.tvi[color] + randomInRange(-0.5, 0.5));
+                }
+                d.lab[color].l += randomInRange(-0.3, 0.3);
+                d.lab[color].a += randomInRange(-0.3, 0.3);
+                d.lab[color].b += randomInRange(-0.3, 0.3);
+            });
+            return d;
+        }
+
+        // === UI & INTERACTION LOGIC ===
+        let isInstructorMode = false;
+        let generatedDataStore = null;
+
+        function toggleInstructorMode() {
+            if(!isInstructorMode) {
+                // Show modal to verify password before turning ON
+                document.getElementById('password-modal').classList.remove('hidden');
+                document.getElementById('instructor-pwd').value = '';
+                document.getElementById('pwd-error').classList.add('hidden');
+                document.getElementById('instructor-pwd').focus();
+            } else {
+                // Turning OFF requires no password
+                applyInstructorModeToggle(false);
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+        }
+
+        function verifyPassword() {
+            const pwd = document.getElementById('instructor-pwd').value;
+            if(pwd === '6654321') {
+                closePasswordModal();
+                applyInstructorModeToggle(true);
+            } else {
+                document.getElementById('pwd-error').classList.remove('hidden');
+            }
+        }
+
+        function applyInstructorModeToggle(turnOn) {
+            isInstructorMode = turnOn;
+            const knob = document.getElementById('mode-knob');
+            const label = document.getElementById('mode-label');
+            const panel = document.getElementById('instructor-panel');
+            
+            if(isInstructorMode) {
+                knob.classList.remove('translate-x-1');
+                knob.classList.add('translate-x-6');
+                document.getElementById('mode-toggle').classList.replace('bg-slate-500', 'bg-amber-500');
+                label.textContent = "Instructor Mode";
+                label.classList.replace('text-white', 'text-amber-400');
+                panel.classList.remove('instructor-hidden');
+            } else {
+                knob.classList.remove('translate-x-6');
+                knob.classList.add('translate-x-1');
+                document.getElementById('mode-toggle').classList.replace('bg-amber-500', 'bg-slate-500');
+                label.textContent = "Student Mode";
+                label.classList.replace('text-amber-400', 'text-white');
+                panel.classList.add('instructor-hidden');
+            }
+            // Ensure the dropdown masks/unmasks text based on mode
+            updateScenarioOptions();
+        }
+
+        function updateScenarioOptions() {
+            const phase = document.getElementById('phase-select').value;
+            const select = document.getElementById('scenario-select');
+            
+            // Store current selection to re-select it after re-populating if applicable
+            const currentVal = select.value; 
+            select.innerHTML = '';
+            
+            scenarios[phase].forEach((scen, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                // Pedagogical fix: Mask the scenario name in Student Mode so they don't see the answer
+                opt.textContent = isInstructorMode ? `Case ${idx + 1}: ${scen.name}` : `Simulation Case ${idx + 1}`;
+                select.appendChild(opt);
+            });
+            
+            if (currentVal && currentVal < scenarios[phase].length) {
+                select.value = currentVal;
+            }
+        }
+
+        function switchTab(tabId) {
+            // Hide all tables
+            document.getElementById('table-sid').classList.add('hidden');
+            document.getElementById('table-tvi').classList.add('hidden');
+            document.getElementById('table-lab').classList.add('hidden');
+            
+            // Reset tab styles
+            ['sid', 'tvi', 'lab'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+
+            // Show selected
+            document.getElementById(`table-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('tab-inactive');
+            activeBtn.classList.add('tab-active');
+        }
+
+        function generateSimulation() {
+            const phase = document.getElementById('phase-select').value;
+            const idx = document.getElementById('scenario-select').value;
+            const scenario = scenarios[phase][idx];
+            const seedStr = document.getElementById('seed-input').value.trim();
+
+            // Setup PRNG
+            const seed = cyrb128(seedStr + phase + idx); // ensure unique combination
+            randomFunc = mulberry32(seed[0]);
+
+            // Generate Data
+            const data = scenario.generate();
+            generatedDataStore = data; // store for export
+
+            // Update Instructor Cheat Sheet
+            document.getElementById('key-fault').textContent = scenario.fault;
+            document.getElementById('key-diag').textContent = scenario.diag;
+            document.getElementById('key-action').textContent = scenario.action;
+            
+            const sevEl = document.getElementById('key-severity');
+            sevEl.textContent = scenario.severity;
+            sevEl.className = `font-bold uppercase ${scenario.severity === 'Pass' ? 'text-emerald-600' : (scenario.severity === 'Borderline' ? 'text-amber-600' : 'text-rose-600')}`;
+
+            // Render Tables
+            renderSID(data.sid);
+            renderTVI(data.tvi);
+            renderLAB(data.lab);
+        }
+
+        function renderSID(sidData) {
+            const tbody = document.getElementById('body-sid');
+            tbody.innerHTML = '';
+            for(let i=0; i<22; i++) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-2 py-1.5 font-bold text-slate-500 border-r border-slate-100 bg-slate-50">${i+1}</td>
+                    <td class="px-2 py-1.5 text-cyan-900">${sidData.c[i].toFixed(2)}</td>
+                    <td class="px-2 py-1.5 text-pink-900">${sidData.m[i].toFixed(2)}</td>
+                    <td class="px-2 py-1.5 text-yellow-900">${sidData.y[i].toFixed(2)}</td>
+                    <td class="px-2 py-1.5 text-slate-900">${sidData.k[i].toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function renderTVI(tviData) {
+            const tbody = document.getElementById('body-tvi');
+            tbody.innerHTML = '';
+            for(let i=0; i<22; i++) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-2 py-1.5 font-bold text-slate-500 border-r border-slate-100 bg-slate-50">${i+1}</td>
+                    <td class="px-2 py-1.5 text-cyan-900">${tviData.c[i].toFixed(1)}</td>
+                    <td class="px-2 py-1.5 text-pink-900">${tviData.m[i].toFixed(1)}</td>
+                    <td class="px-2 py-1.5 text-yellow-900">${tviData.y[i].toFixed(1)}</td>
+                    <td class="px-2 py-1.5 text-slate-900">${tviData.k[i].toFixed(1)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function renderLAB(labData) {
+            const tbody = document.getElementById('body-lab');
+            tbody.innerHTML = '';
+            
+            const labels = { c: 'Cyan', m: 'Magenta', y: 'Yellow', k: 'Black' };
+            const colors = { c: 'text-cyan-700', m: 'text-pink-700', y: 'text-yellow-700', k: 'text-slate-700' };
+
+            ['c', 'm', 'y', 'k'].forEach(color => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-3 py-2 text-left font-bold border-r border-slate-100 ${colors[color]}">${labels[color]}</td>
+                    <td class="px-3 py-2">${labData[color].l.toFixed(2)}</td>
+                    <td class="px-3 py-2">${labData[color].a.toFixed(2)}</td>
+                    <td class="px-3 py-2">${labData[color].b.toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportToCSV() {
+            if(!generatedDataStore) {
+                alert("Please generate a simulation first.");
+                return;
+            }
+
+            const seedStr = document.getElementById('seed-input').value.trim();
+            const phase = document.getElementById('phase-select').options[document.getElementById('phase-select').selectedIndex].text;
+            
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += `PrintQC Lab Simulation Export\nSeed:,${seedStr}\nPhase:,${phase}\n`;
+            csvContent += `DISCLAIMER:,Simulated educational measurement data. Not valid for customer approval ISO certification or production records.\n`;
+            csvContent += `DEVELOPED BY:,Muhammad Yusuf (Printech FSSR UiTM)\n\n`;
+
+            // SID
+            csvContent += "--- SID (22 Zones) ---\nKey,Cyan,Magenta,Yellow,Black\n";
+            for(let i=0; i<22; i++) {
+                csvContent += `${i+1},${generatedDataStore.sid.c[i].toFixed(2)},${generatedDataStore.sid.m[i].toFixed(2)},${generatedDataStore.sid.y[i].toFixed(2)},${generatedDataStore.sid.k[i].toFixed(2)}\n`;
+            }
+            csvContent += "\n";
+
+            // TVI
+            csvContent += "--- TVI (22 Zones) ---\nKey,Cyan %,Magenta %,Yellow %,Black %\n";
+            for(let i=0; i<22; i++) {
+                csvContent += `${i+1},${generatedDataStore.tvi.c[i].toFixed(1)},${generatedDataStore.tvi.m[i].toFixed(1)},${generatedDataStore.tvi.y[i].toFixed(1)},${generatedDataStore.tvi.k[i].toFixed(1)}\n`;
+            }
+            csvContent += "\n";
+
+            // LAB
+            csvContent += "--- CIELAB (Measured at Patch 11) ---\nColour,L*,a*,b*\n";
+            ['c', 'm', 'y', 'k'].forEach(col => {
+                csvContent += `${col.toUpperCase()},${generatedDataStore.lab[col].l.toFixed(2)},${generatedDataStore.lab[col].a.toFixed(2)},${generatedDataStore.lab[col].b.toFixed(2)}\n`;
+            });
+
+            // Download trigger
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `PrintQC_Simulation_${seedStr}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Init on load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateScenarioOptions();
+        });
+    </script>
+</body>
+</html>
