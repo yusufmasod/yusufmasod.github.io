@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yusufmasod.github.io/printqc-lab/sitemap.xml
