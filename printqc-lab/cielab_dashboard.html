@@ -6,9 +6,8 @@
     <title>PrintQC Lab: CIELAB Colour Validation</title>
     
     <!-- Chosen Palette: Technical Neutral with CMYK Accents -->
-    <!-- Application Structure Plan: Split-pane technical dashboard matching the established PrintQC Lab UX. The left pane handles the metadata, tolerance setting, and the dense L*a*b* data entry matrix. The right pane translates these abstract numbers into intuitive visual feedback. Instead of a line chart, Section B dynamically generates on-screen color swatches (Target vs Measured) and plain-English directional feedback (Lighter/Darker, Redder/Greener, Yellower/Bluer). This specifically fulfills the educational goal of helping students interpret numerical CIELAB data into actionable press adjustments. -->
-    <!-- Visualization & Content Choices: Report Info: CIELAB L*a*b* values -> Goal: Visualize color accuracy and deviation direction -> Viz/Presentation Method: Dynamic HTML/CSS Color Swatches and Directional Variance Bars -> Interaction: Real-time LAB-to-RGB rendering and CIEDE2000 calculation upon data entry -> Justification: A standard line/bar chart is ineffective for absolute color comparison. Rendering the actual color patches on-screen (via LAB-to-RGB conversion) provides immediate, intuitive feedback to the student about what ΔE00 actually means visually. -> Library/Method: HTML/Tailwind/Vanilla JS (NO SVG/Mermaid/Chart.js needed for this specific visualizer). -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Application Structure Plan: Split-pane technical dashboard. The left pane handles L*a*b* data entry. The right pane translates these numbers into intuitive visual feedback. 
+         *UPDATED DIAGNOSTIC ENGINE:* The dashboard now features a two-level Universal Diagnosis system. It interprets the Delta E00 shift directionally without assuming offset lithography. If the user selects a specific printing process in the header, Level 2 process-specific actions are appended to the feedback. -->
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -25,6 +24,12 @@
             background-size: 10px 10px; background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
         }
 
+        /* Subtle quadrant gradient for the a*b* map */
+        .lab-grid-bg {
+            background: radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 60%),
+                        conic-gradient(from 45deg, #fef08a 0deg 90deg, #fecaca 90deg 180deg, #bfdbfe 180deg 270deg, #bbf7d0 270deg 360deg);
+        }
+
         @media print {
             body { background-color: #ffffff !important; }
             .max-w-\[1400px\] { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
@@ -36,7 +41,6 @@
             .print-avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; }
             input[type="number"] { background-color: transparent !important; border: 1px solid #cbd5e1 !important; color: #000 !important; }
             .no-print { display: none !important; }
-            /* Ensure colors print for the swatches */
             .print-color-adjust { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
@@ -49,24 +53,35 @@
         <header class="mb-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative print-avoid-break">
             <button onclick="window.print()" class="no-print absolute top-6 right-6 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold py-2 px-4 rounded shadow transition-colors flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                Export PDF / Print
+                Export PDF
             </button>
             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
                 <div class="max-w-2xl pr-32">
                     <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2"><span class="text-blue-600 font-black tracking-tighter">PrintQC</span> Lab</h1>
                     <h2 class="text-xl font-semibold text-slate-700 mb-3">Toolkit File 3: CIELAB Colour Validation (&Delta;E<sub>00</sub>)</h2>
                     <p class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        Input raw L*a*b* spectral data to instantly calculate the CIEDE2000 (&Delta;E<sub>00</sub>) colour difference against ISO targets. Use the visualizer to interpret coordinate shifts (lightness, hue, chroma) and determine corrective actions for colour matching.
+                        Input raw L*a*b* spectral data to instantly calculate the CIEDE2000 (&Delta;E<sub>00</sub>) colour difference against targets. Use the visualizer to map coordinate shifts within the CIELAB gamut space and determine corrective actions using a universal process control methodology.
                     </p>
                 </div>
                 
                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm grid grid-cols-2 gap-x-6 gap-y-3 w-full md:w-auto shadow-inner min-w-[350px]">
                     <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Student name/ID</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">STU-2026-03</div></div>
-                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Technician</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">Instructor / Lab Tech</div></div>
                     <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Date</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">27 July 2026</div></div>
-                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Instrument</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">X-Rite eXact</div></div>
-                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Condition & Substrate</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">M1 / 150gsm Gloss</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Instrument</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">X-Rite eXact (M1)</div></div>
                     <div class="flex flex-col"><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Target Standard</span><div contenteditable="true" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800">ISO 12647-2:2013</div></div>
+                    <div class="flex flex-col col-span-2">
+                        <span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider">Printing Process (Optional)</span>
+                        <select id="process-select" class="outline-none border-b border-dashed border-slate-400 focus:border-blue-500 font-semibold text-slate-800 bg-transparent py-1 cursor-pointer">
+                            <option value="universal">Not specified / Universal</option>
+                            <option value="offset">Offset lithography</option>
+                            <option value="toner">Digital toner</option>
+                            <option value="prod_inkjet">Production inkjet</option>
+                            <option value="lf_inkjet">Large-format inkjet</option>
+                            <option value="flexo">Flexography</option>
+                            <option value="gravure">Gravure</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </header>
@@ -91,7 +106,7 @@
                 <!-- Section A: Raw Data Entry -->
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
                     <h3 class="text-lg font-bold text-slate-800 mb-1">Section A: CIELAB Data Entry</h3>
-                    <p class="text-xs text-slate-500 mb-4">Input measured L*a*b* values below. Target aims are editable if using a different ISO condition.</p>
+                    <p class="text-xs text-slate-500 mb-4">Input measured L*a*b* values below. Target aims are editable if using a different standard.</p>
                     
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left border-collapse">
@@ -125,10 +140,15 @@
             <div class="lg:col-span-6 flex flex-col gap-6">
                 
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 relative print-avoid-break h-full">
-                    <div class="no-print absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Live &Delta;E00 Render</div>
+                    <div class="no-print absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Live Diagnostic Engine</div>
                     <h3 class="text-lg font-bold text-slate-800 mb-1">Section B: Visual &Delta;E<sub>00</sub> Analysis</h3>
-                    <p class="text-xs text-slate-500 mb-4">On-screen simulation (sRGB) of the measured colour vs. target, detailing the direction of error.</p>
+                    <p class="text-xs text-slate-500 mb-4">On-screen spatial map mapping coordinates directly to the CIELAB colour space.</p>
                     
+                    <!-- CMYK Solid Colour Position Map -->
+                    <div id="global-gamut-container" class="mb-6 border border-slate-200 rounded-lg p-4 shadow-sm bg-white print-avoid-break">
+                        <!-- JS will inject the Global Gamut SVG here -->
+                    </div>
+
                     <div id="visualizer-container" class="space-y-4">
                         <!-- Visualizer Cards Generated by JS -->
                     </div>
@@ -138,21 +158,21 @@
 
             <!-- Full Width Bottom: Reflection -->
             <div class="lg:col-span-12 bg-white p-6 rounded-xl shadow-sm border border-slate-200 print-avoid-break">
-                <h3 class="text-lg font-bold text-slate-800 mb-1">Section C: Reflection</h3>
-                <p class="text-xs text-slate-500 mb-4">Review the visualizer in Section B and describe the real-world implications.</p>
+                <h3 class="text-lg font-bold text-slate-800 mb-1">Section C: Control Plan & Reflection</h3>
+                <p class="text-xs text-slate-500 mb-4">Review the diagnostic data above to verify control variables and establish a corrective action plan.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">1. Visual Check</label>
-                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[96px]" placeholder="Does the printed patch visually look different from the proof to the naked eye?"></textarea>
+                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[140px]" placeholder="Does the printed patch appear different from the target or approved proof under controlled lighting? Describe the visible change."></textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">2. Data Interpretation</label>
-                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[96px]" placeholder="For any colour that failed, interpret the numbers. Is it too light? Too blue?"></textarea>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">2. Colour-Shift Interpretation</label>
+                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[140px]" placeholder="Use &Delta;L*, &Delta;a* and &Delta;b* to identify the main direction of the colour difference. State whether the patch is lighter or darker, redder or greener, and yellower or bluer."></textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">3. Action Plan</label>
-                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[96px]" placeholder="What adjustments (e.g., ink density, ink formulation) are needed?"></textarea>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">3. Universal Control Plan</label>
+                        <textarea class="w-full rounded border border-slate-300 p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none textarea-print-style resize-y min-h-[140px]" placeholder="Before adjusting the printing system, verify the reference condition, substrate, measurement settings, instrument calibration, device calibration and colour profile. Reprint and remeasure. If the difference remains, identify a correction suitable for the selected printing process."></textarea>
                     </div>
                 </div>
             </div>
@@ -160,9 +180,17 @@
         </div>
 
         <!-- Footer -->
-        <footer class="mt-12 pt-6 border-t border-slate-300 text-center text-slate-500 text-sm flex flex-col md:flex-row justify-between items-center">
-            <p>Toolkit File: PrintQC Lab - CIELAB Analysis v1.0 (June 2026)</p>
-            <p class="mt-2 md:mt-0 font-medium">License: CC BY 4.0 | Developed for PrintQC Lab</p>
+        <footer class="mt-8 pt-6 border-t border-slate-300 flex flex-col gap-4 pb-8 print-avoid-break">
+            <div class="bg-rose-50 text-rose-700 px-4 py-2 rounded-lg border border-rose-200 text-center text-xs font-bold shadow-sm max-w-3xl mx-auto">
+                &#9888; Simulated educational measurement data. Not valid for customer approval, ISO certification, or production records.
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center w-full text-slate-500 text-sm">
+                <p class="font-bold text-slate-600">Toolkit File 3: PrintQC Lab - CIELAB Analysis v1.0</p>
+                <div class="mt-2 md:mt-0 text-center md:text-right">
+                    <p class="font-medium">License: CC BY 4.0 | Developed for PrintQC Lab</p>
+                    <p class="text-xs mt-1 text-slate-400 font-semibold">Name: Muhammad Yusuf, Printech, FSSR, UiTM</p>
+                </div>
+            </div>
         </footer>
 
     </div>
@@ -173,6 +201,7 @@
             colors: ['c', 'm', 'y', 'k'],
             labels: { c: 'Cyan', m: 'Magenta', y: 'Yellow', k: 'Black' },
             textColors: { c: '#0284c7', m: '#be185d', y: '#a16207', k: '#334155' },
+            hexColors: { c: '#0ea5e9', m: '#ec4899', y: '#eab308', k: '#334155' },
             // Initial data based on the provided student worksheet
             measured: {
                 c: { l: 58.4, a: -35.31, b: -50.12 },
@@ -195,6 +224,7 @@
                 state.tolerance = parseFloat(e.target.value) || 0;
                 updateVisualizer();
             });
+            document.getElementById('process-select').addEventListener('change', updateVisualizer);
             updateVisualizer();
         }
 
@@ -252,10 +282,127 @@
             });
         }
 
+        // Generates the Universal Level 1 & Level 2 Diagnostic Text
+        function generateFeedbackText(colName, de00, isPass, dL, da, db) {
+            const process = document.getElementById('process-select').value;
+
+            if (isPass) {
+                return `${colName} passed at &Delta;E<sub>00</sub> ${de00.toFixed(2)}. The colour is within tolerance. Maintain current production settings.`;
+            }
+
+            // Determine dominant shift
+            const absL = Math.abs(dL);
+            const absA = Math.abs(da);
+            const absB = Math.abs(db);
+            const maxShift = Math.max(absL, absA, absB);
+
+            let shiftDesc = '';
+            if (maxShift === absL) {
+                shiftDesc = `lightness: the measured ${colName.toLowerCase()} is ${dL > 0 ? 'lighter' : 'much darker'} than the target`;
+            } else if (maxShift === absA) {
+                shiftDesc = `the a* axis. The measured ${colName.toLowerCase()} moves toward ${da > 0 ? 'red' : 'green'}`;
+            } else {
+                shiftDesc = `the b* axis. The measured ${colName.toLowerCase()} moves toward ${db > 0 ? 'yellow' : 'blue'}`;
+            }
+
+            // Level 1: Universal Checks
+            let baseText = `<strong>${colName} failed at &Delta;E<sub>00</sub> ${de00.toFixed(2)}.</strong> The main difference is ${shiftDesc}. Verify the selected reference, substrate, measurement settings, device calibration and output profile. Do not adjust the printing system until these checks are complete.`;
+
+            // Level 2: Process-Specific Checks
+            let processText = '';
+            switch(process) {
+                case 'offset': processText = "<strong>Offset Lithography:</strong> Check solid ink density (SID), dampening balance, printing pressure, and blanket condition."; break;
+                case 'toner': processText = "<strong>Digital Toner:</strong> Run engine calibration/linearisation, check transfer voltage, and verify paper catalogue settings."; break;
+                case 'prod_inkjet': processText = "<strong>Production Inkjet:</strong> Verify printhead nozzle health, media profile ink limits, and drying temperatures."; break;
+                case 'lf_inkjet': processText = "<strong>Large-Format Inkjet:</strong> Perform nozzle check, verify heater settings, and confirm correct pass count/print mode."; break;
+                case 'flexo': processText = "<strong>Flexography:</strong> Inspect anilox volume/wear, impression pressure, and ink viscosity/pH."; break;
+                case 'gravure': processText = "<strong>Gravure:</strong> Check ink viscosity, doctor blade pressure, and cylinder condition."; break;
+                case 'other': processText = "<strong>Other Process:</strong> Consult equipment manufacturer guidelines for colour adjustments."; break;
+            }
+
+            if (processText) {
+                return `${baseText}<br><span class="inline-block mt-2 text-blue-800 bg-blue-50 border border-blue-100 px-2 py-1 rounded w-full">${processText}</span>`;
+            }
+            return baseText;
+        }
+
         function updateVisualizer() {
             const container = document.getElementById('visualizer-container');
+            const globalContainer = document.getElementById('global-gamut-container');
             container.innerHTML = '';
+            
+            // --- 1. RENDER GLOBAL SOLID COLOUR POSITION MAP ---
+            const mapX = (a) => 120 + a;
+            const mapY = (b) => 120 - b; // Invert Y because SVG 0 is at top, but +b is top in Lab
 
+            let vectorsAndNodes = '';
+            state.colors.forEach(col => {
+                const t = state.targets[col];
+                const m = state.measured[col];
+                const tx = mapX(t.a), ty = mapY(t.b);
+                const mx = mapX(m.a), my = mapY(m.b);
+                
+                // Draw vector arrow from Target to Measured
+                vectorsAndNodes += `<line x1="${tx}" y1="${ty}" x2="${mx}" y2="${my}" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowhead)"/>`;
+                // Draw Target Node (hollow)
+                vectorsAndNodes += `<circle cx="${tx}" cy="${ty}" r="3.5" fill="#ffffff" stroke="#64748b" stroke-width="1.5" />`;
+                // Draw Measured Node (solid color)
+                vectorsAndNodes += `<circle cx="${mx}" cy="${my}" r="4" fill="${state.hexColors[col]}" stroke="#ffffff" stroke-width="1" />`;
+            });
+
+            globalContainer.innerHTML = `
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-full md:w-1/2 flex flex-col items-center">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 w-full text-center">CMYK Solid Colour Position Map</div>
+                        <div class="relative w-full max-w-[240px] aspect-square rounded-full border border-slate-300 shadow-inner bg-white print-color-adjust">
+                            <svg viewBox="0 0 240 240" class="absolute inset-0 w-full h-full overflow-visible">
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                                        <polygon points="0 0, 6 3, 0 6" fill="#475569" />
+                                    </marker>
+                                </defs>
+                                <!-- Concentric Chroma Circles (C* = 20, 40, 60, 80, 100) -->
+                                <circle cx="120" cy="120" r="20" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                                <circle cx="120" cy="120" r="40" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                                <circle cx="120" cy="120" r="60" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                                <circle cx="120" cy="120" r="80" fill="none" stroke="#cbd5e1" stroke-width="1" />
+                                <circle cx="120" cy="120" r="100" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 2" />
+                                
+                                <!-- Axes -->
+                                <line x1="120" y1="0" x2="120" y2="240" stroke="#94a3b8" stroke-width="1" />
+                                <line x1="0" y1="120" x2="240" y2="120" stroke="#94a3b8" stroke-width="1" />
+                                
+                                <!-- Labels -->
+                                <text x="235" y="115" font-size="8" fill="#ef4444" font-weight="bold" text-anchor="end">+a (Red)</text>
+                                <text x="5" y="115" font-size="8" fill="#22c55e" font-weight="bold" text-anchor="start">-a (Green)</text>
+                                <text x="125" y="10" font-size="8" fill="#eab308" font-weight="bold" text-anchor="start">+b (Yellow)</text>
+                                <text x="125" y="235" font-size="8" fill="#3b82f6" font-weight="bold" text-anchor="start">-b (Blue)</text>
+
+                                <!-- Plot Points and Vectors -->
+                                ${vectorsAndNodes}
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 flex flex-col justify-center text-sm space-y-4">
+                        <div>
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <span class="inline-block w-3 h-3 rounded-full border-2 border-slate-500 bg-white"></span>
+                                Target solid positions
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-tight mt-1">The hollow circles represent the ideal a*b* coordinates for the standard solid inks.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 flex items-center gap-2">
+                                <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-slate-800"></span><svg class="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+                                Measured solid positions
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-tight mt-1">The colored dots represent your printed inks. The arrows show the exact direction and magnitude of the hue/chroma shift from the target.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // --- 2. RENDER INDIVIDUAL CARDS WITH AUTOMATED DIAGNOSIS ---
             state.colors.forEach(col => {
                 const m = state.measured[col];
                 const t = state.targets[col];
@@ -275,16 +422,25 @@
                 const rgbM = labToRGB(m.l, m.a, m.b);
                 const rgbT = labToRGB(t.l, t.a, t.b);
 
+                const mapCoordinate = (val) => ((val + 120) / 240) * 100;
+                const xT = mapCoordinate(t.a);
+                const yT = 100 - mapCoordinate(t.b);
+                const xM = mapCoordinate(m.a);
+                const yM = 100 - mapCoordinate(m.b);
+
+                // Generate Dynamic Feedback Text
+                const feedbackText = generateFeedbackText(state.labels[col], de00, isPass, dL, da, db);
+
                 const card = document.createElement('div');
-                card.className = `border ${isPass ? 'border-slate-200' : 'border-rose-300 bg-rose-50/30'} rounded-lg p-4 shadow-sm relative overflow-hidden print-avoid-break`;
+                card.className = `border ${isPass ? 'border-slate-200' : 'border-rose-300 bg-rose-50/20'} rounded-lg p-4 shadow-sm relative overflow-hidden print-avoid-break flex flex-col`;
                 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center mb-3">
+                    <div class="flex justify-between items-center mb-3 border-b border-slate-100 pb-2">
                         <h4 class="font-bold text-md" style="color: ${state.textColors[col]}">${state.labels[col]} Analysis</h4>
                         <div class="flex items-center gap-3">
-                            <div class="text-right">
-                                <div class="text-[10px] uppercase font-bold text-slate-500 leading-none">Result &Delta;E<sub>00</sub></div>
-                                <div class="font-mono text-xl font-bold ${isPass ? 'text-emerald-600' : 'text-rose-600'} leading-none mt-1">${de00.toFixed(2)}</div>
+                            <div class="text-right flex items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 leading-none">Result &Delta;E<sub>00</sub> =</span>
+                                <span class="font-mono text-xl font-bold ${isPass ? 'text-emerald-600' : 'text-rose-600'} leading-none">${de00.toFixed(2)}</span>
                             </div>
                             <span class="inline-block px-3 py-1 rounded text-xs font-bold text-white shadow-sm print-color-adjust ${isPass ? 'bg-emerald-500' : 'bg-rose-500'}">
                                 ${isPass ? 'PASS' : 'FAIL'}
@@ -292,31 +448,87 @@
                         </div>
                     </div>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 items-center mb-3">
-                        <!-- Swatches -->
-                        <div class="flex gap-0 rounded-lg overflow-hidden border border-slate-300 shadow-md w-full sm:w-1/2 h-16 swatch-pattern print-color-adjust">
-                            <div class="w-1/2 h-full flex flex-col justify-end p-1 print-color-adjust" style="background-color: rgb(${rgbT[0]},${rgbT[1]},${rgbT[2]});">
-                                <span class="bg-black/50 text-white text-[10px] font-bold px-1 rounded w-max">TARGET</span>
+                    <div class="flex flex-col sm:flex-row gap-6 mb-4">
+                        
+                        <!-- Left Data Column -->
+                        <div class="flex-1 flex flex-col gap-4">
+                            <!-- Swatches -->
+                            <div>
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Visual RGB Simulation</div>
+                                <div class="flex gap-0 rounded-lg overflow-hidden border border-slate-300 shadow-md w-full h-16 swatch-pattern print-color-adjust">
+                                    <div class="w-1/2 h-full flex flex-col justify-end p-1 print-color-adjust" style="background-color: rgb(${rgbT[0]},${rgbT[1]},${rgbT[2]});">
+                                        <span class="bg-black/50 text-white text-[10px] font-bold px-1 rounded w-max">TARGET</span>
+                                    </div>
+                                    <div class="w-1/2 h-full flex flex-col justify-end p-1 print-color-adjust" style="background-color: rgb(${rgbM[0]},${rgbM[1]},${rgbM[2]});">
+                                        <span class="bg-black/50 text-white text-[10px] font-bold px-1 rounded w-max">MEASURED</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="w-1/2 h-full flex flex-col justify-end p-1 print-color-adjust" style="background-color: rgb(${rgbM[0]},${rgbM[1]},${rgbM[2]});">
-                                <span class="bg-black/50 text-white text-[10px] font-bold px-1 rounded w-max">MEASURED</span>
+
+                            <!-- Text Directions -->
+                            <div class="grid grid-cols-1 gap-1 text-xs">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 mt-1">Coordinate Shift Breakdown</div>
+                                <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                                    <span class="font-semibold text-slate-600">L* (Light/Dark)</span>
+                                    <span class="font-mono ${Math.abs(dL)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${dL > 0 ? '+' : ''}${dL.toFixed(2)} <span class="text-[10px] uppercase inline-block w-14 text-right">(${lText})</span></span>
+                                </div>
+                                <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                                    <span class="font-semibold text-slate-600">a* (Red/Green)</span>
+                                    <span class="font-mono ${Math.abs(da)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${da > 0 ? '+' : ''}${da.toFixed(2)} <span class="text-[10px] uppercase inline-block w-14 text-right">(${aText})</span></span>
+                                </div>
+                                <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                                    <span class="font-semibold text-slate-600">b* (Yellow/Blue)</span>
+                                    <span class="font-mono ${Math.abs(db)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${db > 0 ? '+' : ''}${db.toFixed(2)} <span class="text-[10px] uppercase inline-block w-14 text-right">(${bText})</span></span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Directions -->
-                        <div class="w-full sm:w-1/2 grid grid-cols-1 gap-1 text-xs">
-                            <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
-                                <span class="font-semibold text-slate-600">L* (Light/Dark)</span>
-                                <span class="font-mono ${Math.abs(dL)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${dL > 0 ? '+' : ''}${dL.toFixed(2)} <span class="text-[10px] uppercase">(${lText})</span></span>
+                        <!-- Right Visualization Column (The Space Maps) -->
+                        <div class="w-full sm:w-[260px] flex gap-3">
+                            
+                            <!-- a*b* 2D Position Map -->
+                            <div class="flex-1 flex flex-col items-center">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 w-full text-center">a* b* Position Map</div>
+                                <div class="relative w-full aspect-square border border-slate-300 rounded shadow-inner lab-grid-bg bg-white print-color-adjust">
+                                    <!-- Embedded SVG for exact plotting -->
+                                    <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full overflow-visible">
+                                        <line x1="50" y1="0" x2="50" y2="100" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2" />
+                                        <line x1="0" y1="50" x2="100" y2="50" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2" />
+                                        
+                                        <text x="96" y="48" font-size="5" fill="#ef4444" font-weight="bold" text-anchor="end">+a</text>
+                                        <text x="4" y="48" font-size="5" fill="#22c55e" font-weight="bold" text-anchor="start">-a</text>
+                                        <text x="52" y="6" font-size="5" fill="#eab308" font-weight="bold" text-anchor="start">+b</text>
+                                        <text x="52" y="98" font-size="5" fill="#3b82f6" font-weight="bold" text-anchor="start">-b</text>
+
+                                        <line x1="${xT}" y1="${yT}" x2="${xM}" y2="${yM}" stroke="#334155" stroke-width="1" stroke-dasharray="1 1" />
+                                        <circle cx="${xT}" cy="${yT}" r="3" fill="none" stroke="#64748b" stroke-width="1.5" />
+                                        <circle cx="${xM}" cy="${yM}" r="3.5" fill="${state.hexColors[col]}" stroke="#ffffff" stroke-width="0.5" />
+                                    </svg>
+                                </div>
+                                <div class="mt-2 text-[9px] text-slate-500 font-semibold flex items-center justify-center gap-3">
+                                    <span class="flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full border border-slate-500 bg-transparent"></span> Target</span>
+                                    <span class="flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full border border-white" style="background-color:${state.hexColors[col]}"></span> Measured</span>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
-                                <span class="font-semibold text-slate-600">a* (Red/Green)</span>
-                                <span class="font-mono ${Math.abs(da)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${da > 0 ? '+' : ''}${da.toFixed(2)} <span class="text-[10px] uppercase">(${aText})</span></span>
+
+                            <!-- L* Lightness Slider Map -->
+                            <div class="w-8 flex flex-col items-center">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">L*</div>
+                                <div class="relative w-full flex-grow border border-slate-300 rounded shadow-inner print-color-adjust" style="background: linear-gradient(to top, #000000 0%, #ffffff 100%);">
+                                    <div class="absolute right-0 w-4 h-1.5 bg-slate-400 border border-white rounded shadow translate-x-1/2" style="bottom: calc(${t.l}% - 3px); z-index: 10;" title="Target L*: ${t.l}"></div>
+                                    <div class="absolute left-0 w-4 h-1.5 border border-white rounded shadow -translate-x-1/2" style="background-color:${state.hexColors[col]}; bottom: calc(${m.l}% - 3px); z-index: 20;" title="Measured L*: ${m.l}"></div>
+                                </div>
+                                <div class="mt-2 text-[9px] text-transparent">_</div>
                             </div>
-                            <div class="flex justify-between items-center bg-slate-50 px-2 py-1 rounded border border-slate-100">
-                                <span class="font-semibold text-slate-600">b* (Yellow/Blue)</span>
-                                <span class="font-mono ${Math.abs(db)>1 ? 'font-bold text-slate-900' : 'text-slate-500'}">${db > 0 ? '+' : ''}${db.toFixed(2)} <span class="text-[10px] uppercase">(${bText})</span></span>
-                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Automated Diagnosis Block -->
+                    <div class="mt-auto pt-3 border-t border-slate-100">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Automated Diagnosis & Control Actions</div>
+                        <div class="text-sm text-slate-700 bg-slate-50 border border-slate-200 p-3 rounded-md">
+                            ${feedbackText}
                         </div>
                     </div>
                 `;
@@ -326,7 +538,6 @@
 
         // --- MATH FUNCTIONS ---
 
-        // Standard D50 LAB to sRGB converter for screen visualization
         function labToRGB(l, a, b) {
             let y = (l + 16) / 116, x = a / 500 + y, z = y - b / 200, r, g, b_;
             x = 0.95047 * ((x * x * x > 0.008856) ? x * x * x : (x - 16/116) / 7.787);
@@ -341,7 +552,6 @@
             return [Math.max(0, Math.min(1, r)) * 255, Math.max(0, Math.min(1, g)) * 255, Math.max(0, Math.min(1, b_)) * 255];
         }
 
-        // CIEDE2000 Implementation
         function calculateCIEDE2000(L1, a1, b1, L2, a2, b2) {
             const rad2deg = (rad) => rad * 180 / Math.PI;
             const deg2rad = (deg) => deg * Math.PI / 180;
