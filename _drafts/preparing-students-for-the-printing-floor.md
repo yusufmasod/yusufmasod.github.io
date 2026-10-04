@@ -10,9 +10,9 @@ tags:
 author_profile: true
 ---
 
-On 2 October 2026, I facilitated a coordination meeting between UiTM and MatrixMax Systems Sdn Bhd regarding Industrial Training (PMB660) for Bachelor of Printing Technology students.
+One question from a recent industry discussion stayed with me: **are degree students genuinely prepared and willing to work hands-on in a production environment?**
 
-The discussion covered student placement, suitable production-based tasks, the 24-week training structure, alignment with course learning outcomes, possible pre-placement interviews or assessments, and opportunities for longer-term university–industry collaboration.
+On 2 October 2026, I facilitated a coordination meeting between UiTM and MatrixMax Systems Sdn Bhd regarding Industrial Training (PMB660) for Bachelor of Printing Technology students. Our discussion covered student placement, production-based responsibilities, the 24-week training structure, alignment with course learning outcomes, and ways to better prepare students before they enter the workplace.
 
 ## What stayed with me
 
