@@ -1,4 +1,8 @@
-# Writing
+---
+title: "Writing"
+permalink: /writing/
+author_profile: true
+---
 
 Selected reflections, readings and commentary arising from my academic and professional work.
 
