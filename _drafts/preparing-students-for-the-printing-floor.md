@@ -14,14 +14,6 @@ One question from a recent industry discussion stayed with me: **are degree stud
 
 On 2 October 2026, I facilitated a coordination meeting between UiTM and MatrixMax Systems Sdn Bhd regarding Industrial Training (PMB660) for Bachelor of Printing Technology students. Our discussion covered student placement, production-based responsibilities, the 24-week training structure, alignment with course learning outcomes, and ways to better prepare students before they enter the workplace.
 
-## What stayed with me
-
-One question from the discussion stayed with me: **are degree students genuinely prepared and willing to work hands-on in a production environment?**
-
-A degree qualification may indicate academic progress, but it does not automatically mean that a student is ready for the day-to-day realities of a printing floor.
-
-Industrial training places students in an environment where production schedules, machinery, quality requirements, teamwork, discipline, and practical problem-solving matter. The experience can be very different from what students imagine when they think about working in the printing industry.
-
 ## A gap in expectations
 
 The discussion also highlighted a possible gap between what students expect from industrial training and what companies actually need from them.
